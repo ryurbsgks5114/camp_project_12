@@ -1,73 +1,50 @@
-import student.Student;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import subject.Subject;
+import subject.SubjectList;
 
 public class Main {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        List<Student> studentList = new ArrayList<>();
+        SubjectList subjectList = new SubjectList();
 
         while (true) {
-            System.out.println("\n1. 학생 등록 ");
-            System.out.println("2. 학생 조회");
+            System.out.println("\n1. 과목 등록 ");
+            System.out.println("2. 등록된 과목 조회");
             System.out.println("3. 종료");
             System.out.print("선택: ");
-            int choice = sc.nextInt();
-            sc.nextLine(); // 버퍼 비우기
+            String choice = sc.nextLine();
 
             switch (choice) {
-                case 1:
-                    System.out.print("고유번호: ");
-                    int studentId = sc.nextInt();
-                    sc.nextLine();
-
-                    System.out.print("이름: ");
-                    String studentName = sc.nextLine();
-
-                    System.out.print("상태: ");
-                    String status = sc.nextLine();
-
-                    Student student = new Student(studentId, studentName, status);
-
-                    System.out.println("과목 목록 입력 (종료하려면 'exit' 입력)");
-                    List<String> subjectList = new ArrayList<>();
-                    while (true) {
-                        String subject = sc.nextLine();
-                        if (subject.equalsIgnoreCase("exit")) {
-                            break;
-                        }
-                        subjectList.add(subject);
-                    }
-
-                    student.studentAdd(studentId, studentName, subjectList);
-                    studentList.add(student);
+                case "1":
+                    registerSubject(sc, subjectList);
                     break;
-                case 2:
-                    System.out.println("===== 등록된 학생 목록 💌 =====");
-                    for (int i = 0; i < studentList.size(); i++) {
-                        Student s = studentList.get(i);
-                        s.studentInquiry();
-
-                        // 학생의 상태를 변경할지 여부를 물어봄
-                        System.out.print("상태를 변경하시겠습니까? (Y/N): ");
-                        String changeStatus = sc.nextLine();
-
-                        if (changeStatus.equalsIgnoreCase("Y")) {
-                            System.out.print("새로운 상태 입력: ");
-                            String newStatus = sc.nextLine();
-                            s.setStatus(newStatus);
-                            System.out.println("상태가 변경되었습니다.");
-                        }
-                    }
+                case "2":
+                    subjectList.displaySubjects();
                     break;
-                case 3:
+                case "3":
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
                     System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
             }
+        }
+    }
+
+    private static void registerSubject(Scanner sc, SubjectList subjectList) {
+        System.out.println("과목 ID를 입력하세요 (종료하려면 'exit' 입력)");
+        String input = sc.nextLine();
+        while (!input.equalsIgnoreCase("exit")) {
+            int subjectId = Integer.parseInt(input);
+            System.out.println("과목 이름을 입력하세요:");
+            String subjectName = sc.nextLine();
+            System.out.println("과목 유형을 입력하세요 (0: 선택과목, 1: 필수과목):");
+            int subjectType = sc.nextInt();
+            sc.nextLine(); // 버퍼 비우기
+            Subject subject = new Subject(subjectId, subjectName, subjectType);
+            subjectList.addSubject(subject);
+            System.out.println("과목이 등록되었습니다.");
+            System.out.println("계속해서 과목을 등록하려면 과목 ID를 입력하세요 (종료하려면 'exit' 입력)");
+            input = sc.nextLine();
         }
     }
 }
