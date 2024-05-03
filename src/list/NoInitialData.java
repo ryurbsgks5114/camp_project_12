@@ -1,4 +1,5 @@
 package list;
 
-public class NoInitialData {
+public class NoInitialData<T> implements List<T> {
+
 }
