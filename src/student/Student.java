@@ -26,7 +26,6 @@ public class Student {
     }
     /*수강생 등록정보 조회*/
     public void studentInquiry() {
-        System.out.println("학생 고유번호 : " + studentId);
         System.out.println("학생 이름: " + studentName);
 
         System.out.println("수강 과목 목록:");
