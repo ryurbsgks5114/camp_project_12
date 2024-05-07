@@ -9,7 +9,7 @@ public class ScoreList {
     private static ArrayList<Score> scoreStore;
 
     public ScoreList(){
-        ScoreList scoreStore = new ScoreList();
+        scoreStore = new ArrayList<>();
     };
 
     public void scoreListAdd (Score score) {
@@ -17,8 +17,21 @@ public class ScoreList {
         System.out.println("점수 객체가 리스트에 저장되었습니다.");
     }
 
-//    public void getScoreList (Student studentId) {
-//        for (int i=0; i<)
-//        scoreStore.get();
-//    }
+    public Score getScoreList (int studentId, int subjectId) {
+        for (Score score : scoreStore) {
+            if (score.getStudentId() == studentId && score.getSubjectid() == subjectId) {
+                return score;
+            }
+        }
+        return null;
+    }
+
+    public void setScoreList (int studentId, int subjectId, int round, int scoreValue) {
+        scoreStore.stream().filter(score -> score.getStudentId() == studentId && score.getSubjectid() == subjectId).forEach(score -> score.setScore(studentId,subjectId,round,scoreValue));
+    }
+
+    public void inquiryToScoreList (int studentId, int subjectId) {
+        scoreStore.stream().filter(score -> score.getStudentId() == studentId && score.getSubjectid() == subjectId).forEach(score -> score.getScore());
+    }
+
 }
