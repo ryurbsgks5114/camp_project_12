@@ -1,13 +1,57 @@
+import idx.AutoIncrement;
+import store.DynamicDataStore;
+import score.Score;
+import store.SubjectStore;
+import student.StudentList;
+import subject.Subject;
 import student.Intro;
 import student.Student;
-import student.StudentList;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
+    // 과목 타입 정의
+    private static final int SUBJECT_TYPE_MANDATORY = 1;
+    private static final int SUBJECT_TYPE_CHOICE = 2;
+
     public static void main(String[] args) {
+
+        DynamicDataStore<Student> studentDataStore = new DynamicDataStore<>();
+        DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
+        SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
+        AutoIncrement studentIdx = new AutoIncrement();
+        AutoIncrement subjectIdx = new AutoIncrement();
+        AutoIncrement scoreIdx = new AutoIncrement();
+
+        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
+        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
+
+        for (String el : mandatoryList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, SUBJECT_TYPE_MANDATORY));
+        }
+
+        for (String el : choiceList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, SUBJECT_TYPE_CHOICE));
+        }
+
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        System.out.println("‖ ███████ ████████ ██    ██ ██████  ███████ ███    ██ ████████  ‖");
+        System.out.println("‖ ██         ██    ██    ██ ██   ██ ██      ████   ██    ██     ‖");
+        System.out.println("‖ ███████    ██    ██    ██ ██   ██ █████   ██ ██  ██    ██     ‖");
+        System.out.println("‖      ██    ██    ██    ██ ██   ██ ██      ██  ██ ██    ██     ‖");
+        System.out.println("‖ ███████    ██     ██████  ██████  ███████ ██   ████    ██     ‖");
+        System.out.println("‖                                                               ‖");
+        System.out.println("‖                                                               ‖");
+        System.out.println("‖ ███    ███  █████  ███    ██  █████   ██████  ███████ ██████  ‖");
+        System.out.println("‖ ████  ████ ██   ██ ████   ██ ██   ██ ██       ██      ██   ██ ‖");
+        System.out.println("‖ ██ ████ ██ ███████ ██ ██  ██ ███████ ██   ███ █████   ██████  ‖");
+        System.out.println("‖ ██  ██  ██ ██   ██ ██  ██ ██ ██   ██ ██    ██ ██      ██   ██ ‖");
+        System.out.println("‖ ██      ██ ██   ██ ██   ████ ██   ██  ██████  ███████ ██   ██ ‖");
+        System.out.println("‖‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‖");
+
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
@@ -63,16 +107,16 @@ public class Main {
 
                     //과목 목록 입력 받음
                     System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
-                    List<String> subjectList = new ArrayList<>();
+                    List<String> newSubjectList = new ArrayList<>();
                     while (true) {
                         String subject = sc.nextLine();
                         if (subject.equalsIgnoreCase("exit")) {
                             break;
                         }
-                        subjectList.add(subject);
+                        newSubjectList.add(subject);
                     }
                     // 학생 정보 및 과목 목록 추가
-                    student.studentAdd(studentId, studentName, subjectList);
+                    student.studentAdd(studentId, studentName, newSubjectList);
                     //생성된 학생 객체를 학생 리스트에 추가 - 새로운 학생을 등록할 때마다 그 학생을 리스트에 추가하여 관리
                     studentList.add(student);
                     System.out.print("-------------------------------------------------------------");
@@ -138,7 +182,7 @@ public class Main {
                         int choice2 = sc.nextInt();
                         sc.nextLine();
 
-                        switch(choice2) {
+                        switch (choice2) {
 
                             case 1:
                                 System.out.print("이름을 변경하시겠습니까? (Y/N): ");
@@ -156,14 +200,12 @@ public class Main {
                                 String changeStatus = sc.nextLine();
 
                                 if (changeStatus.equalsIgnoreCase("Y")) {
-                                    while(!validStatus)
-                                    {
+                                    while (!validStatus) {
                                         System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
                                         String newStatus = sc.nextLine();
-                                        if(newStatus.equalsIgnoreCase("Green")||newStatus.equalsIgnoreCase("Red")||newStatus.equalsIgnoreCase("Yellow")) {
+                                        if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
                                             validStatus = true;
-                                        }
-                                        else{
+                                        } else {
                                             System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                                         }
                                         selectedStudent.setStatus(newStatus);
@@ -235,5 +277,26 @@ public class Main {
                     System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
             }
         }
+
+//        while (true) {
+//            System.out.println("1. 등록된 과목 조회");
+//            System.out.println("2. 종료");
+//            System.out.print("선택: ");
+//            String choice = sc.nextLine();
+//
+//            switch (choice) {
+//                case "1":
+//                    subjectDataStore.inquiryData();
+//                    break;
+//                case "2":
+//                    System.out.println("프로그램을 종료합니다.");
+//                    sc.close(); // Scanner 자원 해제
+//                    return; // 프로그램 종료
+//                default:
+//                    System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
+//            }
+//        }
+
     }
+
 }
