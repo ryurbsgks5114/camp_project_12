@@ -2,15 +2,14 @@ package store;
 
 import subject.Subject;
 
-public class StaticDataStore<T> extends DataStore<T> {
+public class SubjectStore<T> extends DataStore<T> {
 
-    public StaticDataStore() {
+    public SubjectStore() {
         super();
     }
 
     @Override
     public void inquiryData() {
-
         if (super.getDataStore().isEmpty()) {
             System.out.println("등록된 과목이 없습니다.");
         } else {
@@ -23,7 +22,6 @@ public class StaticDataStore<T> extends DataStore<T> {
 
             System.out.println("=============================");
         }
-
     }
 
 }

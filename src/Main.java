@@ -1,11 +1,11 @@
 import idx.AutoIncrement;
-import store.StaticDataStore;
 import store.DynamicDataStore;
 import score.Score;
+import store.SubjectStore;
+import student.StudentList;
 import subject.Subject;
 import student.Intro;
 import student.Student;
-import student.StudentList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ public class Main {
 
         DynamicDataStore<Student> studentDataStore = new DynamicDataStore<>();
         DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
-        StaticDataStore<Subject> subjectDataStore = new StaticDataStore<>();
+        SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
         AutoIncrement studentIdx = new AutoIncrement();
         AutoIncrement subjectIdx = new AutoIncrement();
         AutoIncrement scoreIdx = new AutoIncrement();
