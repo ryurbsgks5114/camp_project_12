@@ -3,12 +3,27 @@ import subject.Subject;
 import subject.SubjectList;
 
 public class Main {
-    public static void main(String[] args) {
+    // 인덱스 타입 정의
+    private static final String INDEX_TYPE_SUBJECT = "SJ";
+    private static final String INDEX_TYPE_STUDENT = "ST";
+    private static final String INDEX_TYPE_SCORE = "SC";
 
+    // 과목 타입 정의
+    private static final int SUBJECT_TYPE_MANDATORY = 1;
+    private static final int SUBJECT_TYPE_CHOICE = 2;
+
+    // index 자동 증가
+    private static int studentIndex = 0;
+    private static int subjectIndex = 0;
+    private static int scoreIndex = 0;
+
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         SubjectList subjectList = new SubjectList();
 
-        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
+        setInitData(subjectList);
+
+        System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
         System.out.println("‖ ███████ ████████ ██    ██ ██████  ███████ ███    ██ ████████  ‖");
         System.out.println("‖ ██         ██    ██    ██ ██   ██ ██      ████   ██    ██     ‖");
         System.out.println("‖ ███████    ██    ██    ██ ██   ██ █████   ██ ██  ██    ██     ‖");
@@ -24,20 +39,16 @@ public class Main {
         System.out.println("‖‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‖");
 
         while (true) {
-            System.out.println("1. 과목 등록 ");
-            System.out.println("2. 등록된 과목 조회");
-            System.out.println("3. 종료");
+            System.out.println("1. 등록된 과목 조회");
+            System.out.println("2. 종료");
             System.out.print("선택: ");
             String choice = sc.nextLine();
 
             switch (choice) {
                 case "1":
-                    registerSubject(sc, subjectList);
-                    break;
-                case "2":
                     subjectList.displaySubjects();
                     break;
-                case "3":
+                case "2":
                     System.out.println("프로그램을 종료합니다.");
                     sc.close(); // Scanner 자원 해제
                     return; // 프로그램 종료
@@ -47,28 +58,69 @@ public class Main {
         }
     }
 
-    private static void registerSubject(Scanner sc, SubjectList subjectList) {
-        while (true) {
-            System.out.println("과목 ID를 입력하세요 (종료하려면 'exit' 입력)");
-            String input = sc.nextLine();
-            if (input.equalsIgnoreCase("exit")) {
-                return; // 과목 등록 종료
+    // 초기 데이터 설정
+    private static void setInitData(SubjectList subjectList) {
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "Java",
+                SUBJECT_TYPE_MANDATORY
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "객체지향",
+                SUBJECT_TYPE_MANDATORY
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "Spring",
+                SUBJECT_TYPE_MANDATORY
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "JPA",
+                SUBJECT_TYPE_MANDATORY
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "MySQL",
+                SUBJECT_TYPE_MANDATORY
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "디자인 패턴",
+                SUBJECT_TYPE_CHOICE
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "Spring Security",
+                SUBJECT_TYPE_CHOICE
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "Redis",
+                SUBJECT_TYPE_CHOICE
+        ));
+        subjectList.addSubject(new Subject(
+                sequence(INDEX_TYPE_SUBJECT),
+                "MongoDB",
+                SUBJECT_TYPE_CHOICE
+        ));
+    }
+
+    // index 자동 증가
+    private static int sequence(String type) {
+        switch (type) {
+            case INDEX_TYPE_STUDENT -> {
+                studentIndex++;
+                return studentIndex;
             }
-            try {
-                int subjectId = Integer.parseInt(input);
-                System.out.println("과목 이름을 입력하세요:");
-                String subjectName = sc.nextLine();
-                System.out.println("과목 유형을 입력하세요 (0: 선택과목, 1: 필수과목):");
-                int subjectType = Integer.parseInt(sc.nextLine());
-                if (subjectType != 0 && subjectType != 1) {
-                    System.out.println("잘못된 과목 유형입니다. 다시 입력하세요.");
-                    continue; // 다음 반복으로 이동
-                }
-                Subject subject = new Subject(subjectId, subjectName, subjectType);
-                subjectList.addSubject(subject);
-                System.out.println("과목이 등록되었습니다.");
-            } catch (NumberFormatException e) {
-                System.out.println("잘못된 형식의 입력입니다. 다시 입력하세요.");
+            case INDEX_TYPE_SUBJECT -> {
+                subjectIndex++;
+                return subjectIndex;
+            }
+            default -> {
+                scoreIndex++;
+                return scoreIndex;
             }
         }
     }

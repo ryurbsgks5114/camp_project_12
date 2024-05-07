@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubjectList {
-    private List<Subject> subjectList;
+    private final List<Subject> subjectList;
 
     public SubjectList() {
         this.subjectList = new ArrayList<>();
     }
 
+    //주어진 과목을 목록에 추가
     public void addSubject(Subject subject) {
         subjectList.add(subject);
     }
 
+    //목록에 있는 과목을 화면에 출력
     public void displaySubjects() {
         if (subjectList.isEmpty()) {
             System.out.println("등록된 과목이 없습니다.");
