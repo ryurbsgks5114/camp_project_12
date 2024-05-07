@@ -1,3 +1,8 @@
+import idx.AutoIncrement;
+import store.StaticDataStore;
+import store.DynamicDataStore;
+import score.Score;
+import subject.Subject;
 import student.Student;
 
 import java.util.ArrayList;
@@ -6,15 +11,26 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static final String SUBJECT_TYPE_MANDATORY = "필수";
-    private static final String SUBJECT_TYPE_CHOICE = "선택";
-    private static int studentIdx;
-    private static int subjectIdx;
-    private static int scoreIdx;
-
-    public Scanner sc = new Scanner(System.in);
-
     public static void main(String[] args) {
+
+        DynamicDataStore<Student> studentDataStore = new DynamicDataStore<>();
+        DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
+        StaticDataStore<Subject> subjectDataStore = new StaticDataStore<>();
+        AutoIncrement studentIdx = new AutoIncrement();
+        AutoIncrement subjectIdx = new AutoIncrement();
+        AutoIncrement scoreIdx = new AutoIncrement();
+
+        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
+        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
+
+        for (String el : mandatoryList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, 1));
+        }
+
+        for (String el : choiceList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, 2));
+        }
+
         Scanner sc = new Scanner(System.in);
         List<Student> studentList = new ArrayList<>();
 
@@ -78,16 +94,6 @@ public class Main {
                     System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
             }
         }
-    }
-
-    private static void setDataList() {
-
-//        List<Student> studentList = new ArrayList<>();
-//        List<Subject> subjectList = new ArrayList<>();
-//        List<Score> scoreList = new ArrayList<>();
-
-        List<String> mandatoryList = new ArrayList<String>();
-        List<String> choiceList = new ArrayList<String>();
 
     }
 
