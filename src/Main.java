@@ -55,8 +55,8 @@ public class Main {
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
-        //학생 객체 저장 리스트
-        List<Student> studentList = new ArrayList<>();
+        StudentList studentListManager = new StudentList(); //StudentList 객체 생성
+
         boolean validStatus = false;
         String status = "";
         int studentId = 0;
@@ -70,7 +70,6 @@ public class Main {
 
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
-
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -102,31 +101,33 @@ public class Main {
                             System.out.println("선택지에 없는 입력입니다. 다시 입력하세요.");
                         }
                     }
-                    //학생 객체 생성
-                    Student student = new Student(studentId, studentName, status);
 
                     //과목 목록 입력 받음
                     System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
-                    List<String> newSubjectList = new ArrayList<>();
+                    List<String> subjectList = new ArrayList<>();
                     while (true) {
                         String subject = sc.nextLine();
                         if (subject.equalsIgnoreCase("exit")) {
                             break;
                         }
-                        newSubjectList.add(subject);
+                        subjectList.add(subject);
                     }
-                    // 학생 정보 및 과목 목록 추가
-                    student.studentAdd(studentId, studentName, newSubjectList);
-                    //생성된 학생 객체를 학생 리스트에 추가 - 새로운 학생을 등록할 때마다 그 학생을 리스트에 추가하여 관리
-                    studentList.add(student);
+
+                    // 학생 객체 생성
+                    Student student = new Student(studentId, studentName, status);
+                    // 과목 추가
+                    for (String subject : subjectList) {
+                        student.addSubject(subject);
+                    }
+                    // 학생 추가
+                    studentListManager.studentAdd(student);
+
                     System.out.print("-------------------------------------------------------------");
-
-
                     break;
                 case 2:
                     System.out.println("전체 학생을 조회합니다.");
                     System.out.println("===================== 등록된 학생 목록 =========================");
-                    for (Student student_inquiry : studentList) {
+                    for (Student student_inquiry : studentListManager.getStudentList()) {
                         System.out.println("\n고유 번호 :" + student_inquiry.getStudentId() + "\n이름 : " + student_inquiry.getStudentName() +
                                 "\n상태: " + student_inquiry.getStatus());
                         System.out.println("과목 목록:");
@@ -141,8 +142,8 @@ public class Main {
                     while (true) {
                         Student s = null;
                         System.out.println("===================== 등록된 학생 목록 =========================");
-                        for (int i = 0; i < studentList.size(); i++) {
-                            s = studentList.get(i);
+                        for (int i = 0; i < studentListManager.getStudentList().size(); i++) {
+                            s = studentListManager.getStudentList().get(i);
                             System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
                         }
                         System.out.println();
@@ -157,7 +158,7 @@ public class Main {
 
                         // 입력한 학생의 고유번호와 일치하는 학생 찾기
                         Student selectedStudent = null;
-                        for (Student student2 : studentList) {
+                        for (Student student2 : studentListManager.getStudentList()) {
                             if (student2.getStudentId() == studentIdToChange) {
                                 selectedStudent = student2;
                                 break;
@@ -257,7 +258,12 @@ public class Main {
                                 newsubjectList.add(subject);
                             }
                             // 올바른 상태일 때만 추가
-                            StudentList.studentAdd(studentList, newStudentId, newName, newStatus, newsubjectList);
+                            Student new_student = new Student(newStudentId, newName, newStatus);
+                            // 과목 추가
+                            for (String subject : newsubjectList) {
+                                new_student.addSubject(subject);
+                            }
+                            studentListManager.studentAdd(new_student);
                         } else {
                             System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                         }
@@ -268,7 +274,7 @@ public class Main {
                     // 학생 삭제
                     System.out.print("삭제할 학생의 이름을 입력하세요 : ");
                     String RemoveName = sc.nextLine();
-                    StudentList.studentRemove(studentList, RemoveName);
+                    studentListManager.studentRemove(RemoveName);
                     break;
                 case 6:
                     System.out.println("프로그램을 종료합니다.");
