@@ -6,25 +6,34 @@ import java.util.Iterator;
 import java.util.List;
 
 public class StudentList {
-    public static void studentAdd(List<Student> studentList,int studentId, String studentName, String status, List<String> subjectList)
-    {
-        Student addStudent = new Student(studentId,studentName,status);
-        addStudent.studentAdd(studentId, studentName, subjectList); // 과목 목록 추가
-        studentList.add(addStudent);
-        System.out.println(studentName + " 학생이 추가되었습니다.");
+    /* 학생 목록을 저장할 List<Student> 타입의 멤버 변수*/
+    private List<Student> studentList;
+
+    public StudentList() {
+        this.studentList = new ArrayList<>();
     }
-    public static void studentRemove(List<Student> studentList, String name) {
-        for (int i = 0; i < studentList.size(); i++) {
-            //리스트에서 학생 객체를 가져옴
-            Student student = studentList.get(i);
-            //Student 클래스에서 객체의 이름을 가져옴
+
+    // 학생을 목록에 추가하는 메서드
+    public void studentAdd(Student student) {
+        studentList.add(student);
+        System.out.println(student.getStudentName() + " 학생이 추가되었습니다.");
+    }
+    // 학생을 목록에서 삭제하는 메서드
+    public void studentRemove(String name) {
+        Iterator<Student> iterator = studentList.iterator();
+        while (iterator.hasNext()) {
+            Student student = iterator.next();
             if (student.getStudentName().equals(name)) {
-                studentList.remove(i);
+                iterator.remove();
                 System.out.println(name + " 학생의 데이터가 삭제되었습니다.");
                 return;
             }
         }
         // 반복이 끝나도 해당 이름을 가진 학생을 찾지 못한 경우
         System.out.println("해당하는 이름의 학생을 찾을 수 없습니다.");
+    }
+    // 학생 목록을 반환하는 메서드
+    public List<Student> getStudentList() {
+        return this.studentList;
     }
 }
