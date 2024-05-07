@@ -3,7 +3,6 @@ import store.StaticDataStore;
 import store.DynamicDataStore;
 import score.Score;
 import subject.Subject;
-import subject.SubjectList;
 import student.Intro;
 import student.Student;
 import student.StudentList;
@@ -27,10 +26,8 @@ public class Main {
         AutoIncrement subjectIdx = new AutoIncrement();
         AutoIncrement scoreIdx = new AutoIncrement();
 
-        SubjectList subjectList = new SubjectList();
-
-        String[] mandatoryList = {"Java", "객체지향", "Spring", "JPA", "MySQL"};
-        String[] choiceList = {"디자인 패턴", "Spring Security", "Redis", "MongoDB"};
+        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
+        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
 
         for (String el : mandatoryList) {
             subjectDataStore.addData(new Subject(subjectIdx.increase(), el, SUBJECT_TYPE_MANDATORY));
@@ -289,7 +286,7 @@ public class Main {
 //
 //            switch (choice) {
 //                case "1":
-//                    subjectList.displaySubjects();
+//                    subjectDataStore.inquiryData();
 //                    break;
 //                case "2":
 //                    System.out.println("프로그램을 종료합니다.");
