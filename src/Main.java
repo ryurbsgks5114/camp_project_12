@@ -1,3 +1,8 @@
+import idx.AutoIncrement;
+import store.StaticDataStore;
+import store.DynamicDataStore;
+import score.Score;
+import subject.Subject;
 import student.Intro;
 import student.Student;
 import student.StudentList;
@@ -7,7 +12,27 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
+
+        DynamicDataStore<Student> studentDataStore = new DynamicDataStore<>();
+        DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
+        StaticDataStore<Subject> subjectDataStore = new StaticDataStore<>();
+        AutoIncrement studentIdx = new AutoIncrement();
+        AutoIncrement subjectIdx = new AutoIncrement();
+        AutoIncrement scoreIdx = new AutoIncrement();
+
+        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
+        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
+
+        for (String el : mandatoryList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, 1));
+        }
+
+        for (String el : choiceList) {
+            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, 2));
+        }
+
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
