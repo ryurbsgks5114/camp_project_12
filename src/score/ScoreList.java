@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 // N수강생들의 모든 Score 객체가 저장되는 클래스, main 클래스에서 프로그램이 동작함과 동시에 초기화가 필요함.
 public class ScoreList {
-    private static ArrayList<Score> scoreStore;
+    private ArrayList<Score> scoreStore;
 
     public ScoreList(){
         scoreStore = new ArrayList<>();

@@ -1,4 +1,5 @@
 import idx.AutoIncrement;
+import score.ScoreList;
 import store.DynamicDataStore;
 import score.Score;
 import store.SubjectStore;
@@ -55,8 +56,9 @@ public class Main {
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
-        //학생 객체 저장 리스트
-        List<Student> studentList = new ArrayList<>();
+        StudentList studentListManager = new StudentList(); //StudentList 객체 생성
+        ScoreList scoreList = new ScoreList(); //ScoreList 객체 생성
+
         boolean validStatus = false;
         String status = "";
         int studentId = 0;
@@ -66,11 +68,13 @@ public class Main {
             System.out.println("                      3. 학생 수정");
             System.out.println("                      4. 학생 추가");
             System.out.println("                      5. 학생 삭제");
-            System.out.println("                      6. 종료 ");
+            System.out.println("                      6. 점수 등록");
+            System.out.println("                      7. 점수 수정");
+            System.out.println("                      8. 점수 조회");
+            System.out.println("                      9. 종료 ");
 
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
-
 
             int choice = sc.nextInt();
             sc.nextLine();
@@ -102,31 +106,33 @@ public class Main {
                             System.out.println("선택지에 없는 입력입니다. 다시 입력하세요.");
                         }
                     }
-                    //학생 객체 생성
-                    Student student = new Student(studentId, studentName, status);
 
                     //과목 목록 입력 받음
                     System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
-                    List<String> newSubjectList = new ArrayList<>();
+                    List<String> subjectList = new ArrayList<>();
                     while (true) {
                         String subject = sc.nextLine();
                         if (subject.equalsIgnoreCase("exit")) {
                             break;
                         }
-                        newSubjectList.add(subject);
+                        subjectList.add(subject);
                     }
-                    // 학생 정보 및 과목 목록 추가
-                    student.studentAdd(studentId, studentName, newSubjectList);
-                    //생성된 학생 객체를 학생 리스트에 추가 - 새로운 학생을 등록할 때마다 그 학생을 리스트에 추가하여 관리
-                    studentList.add(student);
+
+                    // 학생 객체 생성
+                    Student student = new Student(studentId, studentName, status);
+                    // 과목 추가
+                    for (String subject : subjectList) {
+                        student.addSubject(subject);
+                    }
+                    // 학생 추가
+                    studentListManager.studentAdd(student);
+
                     System.out.print("-------------------------------------------------------------");
-
-
                     break;
                 case 2:
                     System.out.println("전체 학생을 조회합니다.");
                     System.out.println("===================== 등록된 학생 목록 =========================");
-                    for (Student student_inquiry : studentList) {
+                    for (Student student_inquiry : studentListManager.getStudentList()) {
                         System.out.println("\n고유 번호 :" + student_inquiry.getStudentId() + "\n이름 : " + student_inquiry.getStudentName() +
                                 "\n상태: " + student_inquiry.getStatus());
                         System.out.println("과목 목록:");
@@ -141,8 +147,8 @@ public class Main {
                     while (true) {
                         Student s = null;
                         System.out.println("===================== 등록된 학생 목록 =========================");
-                        for (int i = 0; i < studentList.size(); i++) {
-                            s = studentList.get(i);
+                        for (int i = 0; i < studentListManager.getStudentList().size(); i++) {
+                            s = studentListManager.getStudentList().get(i);
                             System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
                         }
                         System.out.println();
@@ -157,7 +163,7 @@ public class Main {
 
                         // 입력한 학생의 고유번호와 일치하는 학생 찾기
                         Student selectedStudent = null;
-                        for (Student student2 : studentList) {
+                        for (Student student2 : studentListManager.getStudentList()) {
                             if (student2.getStudentId() == studentIdToChange) {
                                 selectedStudent = student2;
                                 break;
@@ -257,7 +263,12 @@ public class Main {
                                 newsubjectList.add(subject);
                             }
                             // 올바른 상태일 때만 추가
-                            StudentList.studentAdd(studentList, newStudentId, newName, newStatus, newsubjectList);
+                            Student new_student = new Student(newStudentId, newName, newStatus);
+                            // 과목 추가
+                            for (String subject : newsubjectList) {
+                                new_student.addSubject(subject);
+                            }
+                            studentListManager.studentAdd(new_student);
                         } else {
                             System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                         }
@@ -268,9 +279,112 @@ public class Main {
                     // 학생 삭제
                     System.out.print("삭제할 학생의 이름을 입력하세요 : ");
                     String RemoveName = sc.nextLine();
-                    StudentList.studentRemove(studentList, RemoveName);
+                    studentListManager.studentRemove(RemoveName);
                     break;
+
                 case 6:
+                    System.out.println("점수를 등록할 수강생의 고유번호를 입력해주세요.");
+
+                    int selectStudentId = sc.nextInt();
+                    sc.nextLine();
+
+                    // 입력된 학생 ID가 등록된 ID인지 확인
+                    for (Student student2 : studentListManager.getStudentList()) {
+                        if (student2.getStudentId() == selectStudentId) {
+                            System.out.println("등록된 ID");
+                        } else {
+                            System.out.println("등록되지 않은 ID입니다. 다시 확인해주세요.");
+                            System.out.println(student2.getStudentId());
+                            System.out.println(student2.getStudentName());
+                            break;
+                        }
+                        // 점수 등록할 과목 안내
+                        subjectDataStore.inquiryData();
+
+                        System.out.println("과목 코드를 입력해주세요.");
+                        int selectSubjectId = sc.nextInt();
+                        sc.nextLine();
+
+                        // 입력된 과목코드의 필수과목 여부 판독
+                        int subjectType = 0;
+                        for (int i = 0; i < subjectDataStore.getDataStore().size(); i++) {
+                            Subject subject = subjectDataStore.getDataStore().get(i);
+                            if (subject.getSubjectId() == selectSubjectId) {
+                                subjectType = subject.getSubjectType();
+                            }
+                        }
+
+                        // 입력받은 학생 ID, 과목 ID를 통해 기 입력 데이터 존재여부 확인
+                        Score tempScore = scoreList.getScoreList(selectStudentId, selectSubjectId);
+
+                        // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
+                        if (tempScore != null) {    // 기 입력 데이터가 있는 경우
+                            System.out.println("등록할 점수의 시험회차를 입력해주세요.");
+                            int round = sc.nextInt();
+
+                            System.out.println("점수를 입력해주세요");
+                            int scoreValue = sc.nextInt();
+
+                            tempScore.scoreAdd(round, scoreValue);
+                        } else {    // 기 입력 데이터가 없는 경우
+                            System.out.println("등록할 점수의 시험회차를 입력해주세요.");
+                            int round = sc.nextInt();
+
+                            System.out.println("점수를 입력해주세요");
+                            int scoreValue = sc.nextInt();
+
+                            Score score = new Score(selectStudentId, selectSubjectId, subjectType);
+
+                            score.scoreAdd(round, scoreValue);
+                            scoreList.scoreListAdd(score);
+                        }
+
+                        scoreList.inquiryToScoreList(selectStudentId,selectSubjectId);
+                    } break;
+
+                case 7:
+                    System.out.println("점수를 수정할 수강생의 고유번호를 입력해주세요.");
+                    selectStudentId = sc.nextInt();
+                    sc.nextLine();
+
+                    // 입력된 학생 ID가 등록된 ID인지 확인
+                    for (Student student2 : studentListManager.getStudentList()) {
+                        if (student2.getStudentId() == selectStudentId) {
+                            System.out.println("등록된 ID");
+
+                            // 점수 수정할 과목 안내
+                            subjectDataStore.inquiryData();
+
+                            System.out.println("수정할 과목 코드를 입력해주세요.");
+                            int selectSubjectId = sc.nextInt();
+                            sc.nextLine();
+
+                            // 입력받은 학생 ID, 과목 ID를 통해 기 입력 데이터 존재여부 확인
+                            Score tempScore = scoreList.getScoreList(selectStudentId, selectSubjectId);
+
+                            // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
+                            if (tempScore != null) {    // 기 입력 데이터가 있는 경우
+                                scoreList.inquiryToScoreList(selectStudentId,selectSubjectId);
+                                System.out.println("수정할 점수의 시험회차를 입력해주세요.");
+                                int round = sc.nextInt();
+
+                                System.out.println("수정하여 입력될 점수를 입력해주세요");
+                                int scoreValue = sc.nextInt();
+
+                                tempScore.setScore(selectStudentId, selectSubjectId, round, scoreValue);
+                            } else {    // 기 입력 데이터가 없는 경우
+                                System.out.println("수정할 데이터가 없습니다.");
+                                break;
+                            }
+
+                            scoreList.inquiryToScoreList(selectStudentId,selectSubjectId);
+                        } else {
+                            System.out.println("등록되지 않은 ID입니다. 다시 확인해주세요.");
+                            break;
+                        }
+                    } break;
+
+                case 8:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
@@ -298,5 +412,4 @@ public class Main {
 //        }
 
     }
-
 }
