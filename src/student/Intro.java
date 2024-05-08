@@ -16,7 +16,7 @@ public class Intro {
         // 단어들을 순서대로 출력
         for (String word : words) {
             System.out.print(word+" ");
-            sleep(500); // 각 단어 사이에 0.5초의 딜레이
+            sleep(1); // 각 단어 사이에 0.5초의 딜레이
         }
         System.out.println();
         System.out.print("=============================================================");
