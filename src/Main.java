@@ -1,5 +1,5 @@
-import score.ScoreList;
 import score.Score;
+import store.ScoreStore;
 import store.StudentStore;
 import store.SubjectStore;
 import subject.Subject;
@@ -7,7 +7,6 @@ import student.Intro;
 import student.Student;
 
 import java.util.ArrayList;
-import java.util.Formattable;
 import java.util.List;
 import java.util.Scanner;
 
@@ -21,6 +20,7 @@ public class Main {
 
         StudentStore<Student> studentDataStore = new StudentStore<>();
         SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
+        ScoreStore<Score> scoreDataStore = new ScoreStore<>();
 
         String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
         String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
@@ -51,7 +51,6 @@ public class Main {
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
-        ScoreList scoreList = new ScoreList(); //ScoreList 객체 생성
 
         boolean validStatus = false;
         String status = "";
@@ -226,14 +225,14 @@ public class Main {
                     int addStudentId = sc.nextInt();
                     sc.nextLine();
 
-                    // 입력된 student ID가 등록된 ID인지 확인
+                    // 입력된 student ID가 등록된 ID 인지 확인
                     boolean addverifiationId = false;
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == addStudentId) {
                             addverifiationId = true;
                         } else {
                             addverifiationId = false;
-                            System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         }
                     }
 
@@ -263,7 +262,7 @@ public class Main {
                                             )
                             );
 
-                    // student 객체의 subjectList에 등록되지 않은 과목일 경우 continue
+                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
                     if (isMatched == false) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
@@ -299,12 +298,12 @@ public class Main {
                     }
 
                     // 입력받은 학생 ID, 과목 ID를 통해 기 입력 데이터 존재여부 확인
-                    Score tempScore = scoreList.getScoreList(addStudentId, addSubjectId);
+                    Score tempScore = scoreDataStore.getScoreList(addStudentId, addSubjectId);
 
                     // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
                     if (tempScore != null) {    // 기 입력 데이터가 있는 경우
                         System.out.println("========== " + addInformStudentName + " 수강생의 " + addInformSubjectName + " 과목 점수 등록현황 ==========");
-                        scoreList.inquiryToScoreList(addStudentId, addSubjectId);
+                        scoreDataStore.inquiryToScoreList(addStudentId, addSubjectId);
 
                         System.out.println("등록할 점수의 시험회차를 입력해주세요.");
                         int round = sc.nextInt();
@@ -324,7 +323,7 @@ public class Main {
                         Score score = new Score(addStudentId, addSubjectId, subjectType);
 
                         score.scoreAdd(round, scoreValue);
-                        scoreList.scoreListAdd(score);
+                        scoreDataStore.addData(score);
                     }
                     break;
                 case 6:    // 점수 수정
@@ -332,14 +331,14 @@ public class Main {
                     int modificationStudentId = sc.nextInt();
                     sc.nextLine();
 
-                    // 입력된 student ID가 등록된 ID인지 확인
+                    // 입력된 student ID가 등록된 ID 인지 확인
                     boolean modifyVerificationId = false;
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == modificationStudentId) {
                             modifyVerificationId = true;
                         } else {
                             modifyVerificationId = false;
-                            System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         }
                     }
 
@@ -368,7 +367,7 @@ public class Main {
                                             )
                             );
 
-                    // student 객체의 subjectList에 등록되지 않은 과목일 경우 continue
+                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
                     if (isMatched2 == false) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
@@ -393,12 +392,12 @@ public class Main {
                     }
 
                     // 입력받은 학생 ID, 과목 ID를 통해 기 입력 데이터 존재여부 확인
-                    Score tempScore2 = scoreList.getScoreList(modificationStudentId, modificationSubjectId);
+                    Score tempScore2 = scoreDataStore.getScoreList(modificationStudentId, modificationSubjectId);
 
                     // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
                     if (tempScore2 != null) {    // 기 입력 데이터가 있는 경우
                         System.out.println("========== " + modifyInformStudentName + " 수강생의 " + modifyInformSubjectName + " 과목 점수 등록현황 ==========");
-                        scoreList.inquiryToScoreList(modificationStudentId,modificationSubjectId);
+                        scoreDataStore.inquiryToScoreList(modificationStudentId,modificationSubjectId);
                         System.out.println("수정할 점수의 시험회차를 입력해주세요.");
                         int round = sc.nextInt();
 
@@ -418,14 +417,14 @@ public class Main {
                     int inquiryStudentId = sc.nextInt();
                     sc.nextLine();
 
-                    // 입력된 student ID가 등록된 ID인지 boolean 타입 변수에 결과 저장
+                    // 입력된 student ID가 등록된 ID 인지 boolean 타입 변수에 결과 저장
                     boolean inquiryVerificationId = false;
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == inquiryStudentId) {
                             inquiryVerificationId = true;
                         } else {
                             inquiryVerificationId = false;
-                            System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         }
                     }
 
@@ -455,7 +454,7 @@ public class Main {
                                             )
                             );
 
-                    // student 객체의 subjectList에 등록되지 않은 과목일 경우 continue
+                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
                     if (isMatched3 == false) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
@@ -481,9 +480,9 @@ public class Main {
                         }
                     }
 
-                    // 입력된 정보를 바탕으로 scoreList에서 inquiry 메서드 호출
+                    // 입력된 정보를 바탕으로 scoreList 에서 inquiry 메서드 호출
                     System.out.println("========== " + inquiryInformStudentName + " 수강생의 " + inquiryInformSubjectName + " 과목 점수 조회 결과 ==========" );
-                    scoreList.inquiryToScoreList(inquiryStudentId,inquirySubjectId);
+                    scoreDataStore.inquiryToScoreList(inquiryStudentId,inquirySubjectId);
                     break;
                 case 8:
                     System.out.println("프로그램을 종료합니다.");

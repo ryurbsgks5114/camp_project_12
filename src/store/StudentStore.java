@@ -10,8 +10,6 @@ public class StudentStore<T extends Student> extends DataStore<T> {
         super();
     }
 
-//    추가하는 메서드 추상 메서드로 만들어서 오버라이딩할 때 추가해야하는 문장
-//    System.out.println(student.getStudentName() + " 학생이 추가되었습니다.");
     @Override
     public void addData(T data) {
         data.setStudentId(super.getAutoIncrement().getIdx());
