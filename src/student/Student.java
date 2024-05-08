@@ -10,19 +10,10 @@ public class Student {
     private String status;
 
     /*생성자*/
-    public Student(int studentId, String studentName, String status) {
-        this.studentId = studentId;
+    public Student(String studentName, String status) {
         this.studentName = studentName;
         this.status = status;
-        this.subjectName = new ArrayList<String>(); //과목 초기화
-    }
-    /*수강생 등록 메서드*/
-    public void studentAdd(int studentId, String studentName, List<String> subjectName) {
-        if(this.studentId != studentId) {
-            this.studentId = studentId; //새로운 학생의 고유번호
-        }
-        this.studentName = studentName; //학생 이름 설정
-        this.subjectName = subjectName; //과목 목록 추가
+        this.subjectName = new ArrayList<>(); //과목 초기화
     }
     /*수강생 등록정보 조회*/
     public void studentInquiry() {
@@ -38,6 +29,11 @@ public class Student {
     {
         return studentId;
     }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
     //Setter 사용하여 status 값 수정
     public void setStatus(String status) {
         this.status = status;
@@ -54,7 +50,11 @@ public class Student {
         return status;
     }
 
-    public String[] getSubjectList() {
-        return subjectName.toArray(new String[subjectName.size()]);
+    public List<String> getSubjectList() { // List<String> 반환
+        return subjectName;
     }
+    public void addSubject(String subject) { // 과목 추가 메서드
+        subjectName.add(subject);
+    }
+
 }
