@@ -576,7 +576,7 @@ public class Main {
             switch (studentNum) {
                 case 1:
                     validStatus = false;
-
+                
                     System.out.print("📝 이름 : ");
                     String studentName = sc.nextLine();
 
