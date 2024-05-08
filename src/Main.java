@@ -1,6 +1,3 @@
-import idx.AutoIncrement;
-import store.DynamicDataStore;
-import score.Score;
 import store.StudentStore;
 import store.SubjectStore;
 import subject.Subject;
@@ -20,21 +17,17 @@ public class Main {
     public static void main(String[] args) {
 
         StudentStore<Student> studentDataStore = new StudentStore<>();
-        DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
         SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
-        AutoIncrement studentIdx = new AutoIncrement();
-        AutoIncrement subjectIdx = new AutoIncrement();
-        AutoIncrement scoreIdx = new AutoIncrement();
 
         String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
         String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
 
         for (String el : mandatoryList) {
-            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, SUBJECT_TYPE_MANDATORY));
+            subjectDataStore.addData(new Subject(el, SUBJECT_TYPE_MANDATORY));
         }
 
         for (String el : choiceList) {
-            subjectDataStore.addData(new Subject(subjectIdx.increase(), el, SUBJECT_TYPE_CHOICE));
+            subjectDataStore.addData(new Subject(el, SUBJECT_TYPE_CHOICE));
         }
 
         System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
@@ -77,15 +70,6 @@ public class Main {
             switch (choice) {
                 //학생 등록
                 case 1:
-                    System.out.print("🎫 고유번호 : ");
-                    while (!sc.hasNextInt()) {
-                        System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
-                        System.out.print("🎫 고유번호 : ");
-                        sc.nextLine();
-                    }
-                    studentId = sc.nextInt();
-                    sc.nextLine();
-
                     System.out.print("📝 이름 : ");
                     String studentName = sc.nextLine();
 
@@ -113,7 +97,7 @@ public class Main {
                     }
 
                     // 학생 객체 생성
-                    Student student = new Student(studentId, studentName, status);
+                    Student student = new Student(studentName, status);
                     // 과목 추가
                     for (String subject : subjectList) {
                         student.addSubject(subject);
@@ -247,7 +231,7 @@ public class Main {
                                 newsubjectList.add(subject);
                             }
                             // 올바른 상태일 때만 추가
-                            Student new_student = new Student(newStudentId, newName, newStatus);
+                            Student new_student = new Student(newName, newStatus);
                             // 과목 추가
                             for (String subject : newsubjectList) {
                                 new_student.addSubject(subject);

@@ -4,7 +4,7 @@ import student.Student;
 
 import java.util.Iterator;
 
-public class StudentStore<T> extends DataStore<T> {
+public class StudentStore<T extends Student> extends DataStore<T> {
 
     public StudentStore() {
         super();
@@ -12,6 +12,13 @@ public class StudentStore<T> extends DataStore<T> {
 
 //    추가하는 메서드 추상 메서드로 만들어서 오버라이딩할 때 추가해야하는 문장
 //    System.out.println(student.getStudentName() + " 학생이 추가되었습니다.");
+    @Override
+    public void addData(T data) {
+        data.setStudentId(super.getAutoIncrement().getIdx());
+        super.getDataStore().add(data);
+        super.getAutoIncrement().increase();
+        System.out.println(data.getStudentName() + " 학생이 추가되었습니다.");
+    }
 
     @Override
     public void inquiryData() {
@@ -21,7 +28,7 @@ public class StudentStore<T> extends DataStore<T> {
             System.out.println("전체 학생을 조회합니다.");
             System.out.println("===================== 등록된 학생 목록 =========================");
             for (int i = 0; i < super.getDataStore().size(); i++) {
-                Student student = (Student) super.getDataStore().get(i);
+                Student student = super.getDataStore().get(i);
                 System.out.println("\n고유 번호 :" + student.getStudentId() + "\n이름 : " + student.getStudentName() +
                         "\n상태: " + student.getStatus());
                 System.out.println("과목 목록:");
