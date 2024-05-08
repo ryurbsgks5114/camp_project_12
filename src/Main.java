@@ -70,7 +70,7 @@ public class Main {
                 //학생 등록
                 case 1:
                     validStatus = false;
-
+                
                     System.out.print("📝 이름 : ");
                     String studentName = sc.nextLine();
 
