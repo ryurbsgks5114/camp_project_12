@@ -1,6 +1,7 @@
 package score;
 
 import student.Student;
+import store.SubjectStore;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,10 @@ public class ScoreList {
         return null;
     }
 
+    public ArrayList<Score> getScoreStore() {
+        return scoreStore;
+    }
+
     public void setScoreList (int studentId, int subjectId, int round, int scoreValue) {
         scoreStore.stream().filter(score -> score.getStudentId() == studentId && score.getSubjectid() == subjectId).forEach(score -> score.setScore(studentId,subjectId,round,scoreValue));
     }
@@ -32,5 +37,4 @@ public class ScoreList {
     public void inquiryToScoreList (int studentId, int subjectId) {
         scoreStore.stream().filter(score -> score.getStudentId() == studentId && score.getSubjectid() == subjectId).forEach(score -> score.getScore());
     }
-
 }
