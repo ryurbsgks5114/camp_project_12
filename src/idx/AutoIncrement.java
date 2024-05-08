@@ -8,8 +8,12 @@ public class AutoIncrement {
         this.idx = 0;
     }
 
-    public int increase() {
-        return this.idx++;
+    public int getIdx() {
+        return idx;
+    }
+
+    public void increase() {
+        this.idx++;
     }
 
 }
