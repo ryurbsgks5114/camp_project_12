@@ -91,6 +91,9 @@ public class Main {
 
                     List<String> subjectList = new ArrayList<>();
 
+                    List<String> mandatorySelections = new ArrayList<>();
+                    List<String> choiceSelections = new ArrayList<>();
+
                     while (true) {
                         System.out.println("필수 과목을 선택하세요 (3개 이상, 공백으로 구분하여 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_MANDATORY);
@@ -107,7 +110,7 @@ public class Main {
                         for (String choiceMandatory : mandatoryChoicesStr) {
                             int index = Integer.parseInt(choiceMandatory) - 1; // 인덱스 변환
                             if (index >= 0 && index < mandatoryList.length) {
-                                subjectList.add(mandatoryList[index]);
+                                mandatorySelections.add(mandatoryList[index]);
                             } else {
                                 validInput = false;
                                 System.out.println("잘못된 선택입니다. 다시 선택하세요.");
@@ -117,14 +120,13 @@ public class Main {
 
                         if (!validInput) {
                             // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
-                            subjectList.clear(); // 이전에 선택된 항목들을 제거
+                            mandatorySelections.clear(); // 이전에 선택된 필수과목 항목들을 제거
                             continue;
                         }
 
-                        break; // 모든 선택이 유효하면 반복문 종료
+                        break; // 필수 과목 선택이 유효하면 반복문 종료
                     }
 
-                    // 선택 과목을 문자열로 받기
                     while (true) {
                         System.out.println("선택 과목을 선택하세요 (2개 이상, 공백으로 구분하여 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_CHOICE);
@@ -141,7 +143,7 @@ public class Main {
                         for (String choiceChoice : choiceChoicesStr) {
                             int index = Integer.parseInt(choiceChoice) - 1; // 인덱스 변환
                             if (index >= 0 && index < choiceList.length) {
-                                subjectList.add(choiceList[index]);
+                                choiceSelections.add(choiceList[index]);
                             } else {
                                 validInput = false;
                                 System.out.println("잘못된 선택입니다. 다시 선택하세요.");
@@ -150,12 +152,17 @@ public class Main {
                         }
 
                         if (!validInput) {
-                            subjectList.clear();
-                            continue; // 잘못된 선택이 있으면 다시 입력 받음
+                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
+                            choiceSelections.clear(); // 이전에 선택된 선택과목 항목들을 제거
+                            continue;
                         }
 
-                        break; // 모든 선택이 유효하면 반복문 종료
+                        break; // 선택 과목 선택이 유효하면 반복문 종료
                     }
+
+// 최종 선택 합치기
+                    subjectList.addAll(mandatorySelections);
+                    subjectList.addAll(choiceSelections);
 
                     // 학생 객체 생성
                     Student student = new Student(studentName, status);
