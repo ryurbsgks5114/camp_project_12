@@ -1,8 +1,8 @@
 import idx.AutoIncrement;
 import store.DynamicDataStore;
 import score.Score;
+import store.StudentStore;
 import store.SubjectStore;
-import student.StudentList;
 import subject.Subject;
 import student.Intro;
 import student.Student;
@@ -19,7 +19,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        DynamicDataStore<Student> studentDataStore = new DynamicDataStore<>();
+        StudentStore<Student> studentDataStore = new StudentStore<>();
         DynamicDataStore<Score> scoreDataStore = new DynamicDataStore<>();
         SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
         AutoIncrement studentIdx = new AutoIncrement();
@@ -55,7 +55,6 @@ public class Main {
         Intro.animateIntro();
 
         Scanner sc = new Scanner(System.in);
-        StudentList studentListManager = new StudentList(); //StudentList 객체 생성
 
         boolean validStatus = false;
         String status = "";
@@ -120,30 +119,20 @@ public class Main {
                         student.addSubject(subject);
                     }
                     // 학생 추가
-                    studentListManager.studentAdd(student);
+                    studentDataStore.addData(student);
 
                     System.out.print("-------------------------------------------------------------");
                     break;
                 case 2:
-                    System.out.println("전체 학생을 조회합니다.");
-                    System.out.println("===================== 등록된 학생 목록 =========================");
-                    for (Student student_inquiry : studentListManager.getStudentList()) {
-                        System.out.println("\n고유 번호 :" + student_inquiry.getStudentId() + "\n이름 : " + student_inquiry.getStudentName() +
-                                "\n상태: " + student_inquiry.getStatus());
-                        System.out.println("과목 목록:");
-                        for (String subject : student_inquiry.getSubjectList()) {
-                            System.out.println("    - " + subject);
-                        }
-                        System.out.print("-------------------------------------------------------------");
-                    }
+                    studentDataStore.inquiryData();
                     break;
                 case 3:
                     //학생 수정
                     while (true) {
                         Student s = null;
                         System.out.println("===================== 등록된 학생 목록 =========================");
-                        for (int i = 0; i < studentListManager.getStudentList().size(); i++) {
-                            s = studentListManager.getStudentList().get(i);
+                        for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                            s = studentDataStore.getDataStore().get(i);
                             System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
                         }
                         System.out.println();
@@ -158,7 +147,7 @@ public class Main {
 
                         // 입력한 학생의 고유번호와 일치하는 학생 찾기
                         Student selectedStudent = null;
-                        for (Student student2 : studentListManager.getStudentList()) {
+                        for (Student student2 : studentDataStore.getDataStore()) {
                             if (student2.getStudentId() == studentIdToChange) {
                                 selectedStudent = student2;
                                 break;
@@ -263,7 +252,7 @@ public class Main {
                             for (String subject : newsubjectList) {
                                 new_student.addSubject(subject);
                             }
-                            studentListManager.studentAdd(new_student);
+//                            studentListManager.studentAdd(new_student);
                         } else {
                             System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                         }
@@ -274,7 +263,7 @@ public class Main {
                     // 학생 삭제
                     System.out.print("삭제할 학생의 이름을 입력하세요 : ");
                     String RemoveName = sc.nextLine();
-                    studentListManager.studentRemove(RemoveName);
+                    studentDataStore.remove(RemoveName);
                     break;
                 case 6:
                     System.out.println("프로그램을 종료합니다.");
