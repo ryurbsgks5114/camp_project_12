@@ -6,6 +6,7 @@ import store.SubjectStore;
 import subject.Subject;
 import student.Intro;
 import student.Student;
+import student.StudentList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +78,7 @@ public class Main {
             switch (choice) {
                 //학생 등록
                 case 1:
+                    validStatus = false;
                     System.out.print("🎫 고유번호 : ");
                     while (!sc.hasNextInt()) {
                         System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
@@ -111,7 +113,6 @@ public class Main {
                         }
                         subjectList.add(subject);
                     }
-
                     // 학생 객체 생성
                     Student student = new Student(studentId, studentName, status);
                     // 과목 추가
@@ -172,7 +173,7 @@ public class Main {
                         int choice2 = sc.nextInt();
                         sc.nextLine();
 
-                        switch (choice2) {
+                        switch(choice2) {
 
                             case 1:
                                 System.out.print("이름을 변경하시겠습니까? (Y/N): ");
@@ -190,12 +191,14 @@ public class Main {
                                 String changeStatus = sc.nextLine();
 
                                 if (changeStatus.equalsIgnoreCase("Y")) {
+                                    validStatus = false;
                                     while (!validStatus) {
                                         System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
                                         String newStatus = sc.nextLine();
-                                        if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
+                                        if(newStatus.equalsIgnoreCase("Green")||newStatus.equalsIgnoreCase("Red")||newStatus.equalsIgnoreCase("Yellow")) {
                                             validStatus = true;
-                                        } else {
+                                        }
+                                        else{
                                             System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                                         }
                                         selectedStudent.setStatus(newStatus);
@@ -272,26 +275,5 @@ public class Main {
                     System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
             }
         }
-
-//        while (true) {
-//            System.out.println("1. 등록된 과목 조회");
-//            System.out.println("2. 종료");
-//            System.out.print("선택: ");
-//            String choice = sc.nextLine();
-//
-//            switch (choice) {
-//                case "1":
-//                    subjectDataStore.inquiryData();
-//                    break;
-//                case "2":
-//                    System.out.println("프로그램을 종료합니다.");
-//                    sc.close(); // Scanner 자원 해제
-//                    return; // 프로그램 종료
-//                default:
-//                    System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
-//            }
-//        }
-
     }
-
 }
