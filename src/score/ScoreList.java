@@ -14,7 +14,6 @@ public class ScoreList {
 
     public void scoreListAdd (Score score) {
         scoreStore.add(score);
-        System.out.println("점수 객체가 리스트에 저장되었습니다.");
     }
 
     public Score getScoreList (int studentId, int subjectId) {
