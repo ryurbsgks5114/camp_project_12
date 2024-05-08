@@ -56,9 +56,8 @@ public class Main {
             System.out.println("\n                      1. 학생 등록");
             System.out.println("                      2. 학생 조회");
             System.out.println("                      3. 학생 수정");
-            System.out.println("                      4. 학생 추가");
-            System.out.println("                      5. 학생 삭제");
-            System.out.println("                      6. 종료 ");
+            System.out.println("                      4. 학생 삭제");
+            System.out.println("                      5. 종료 ");
 
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
@@ -70,6 +69,8 @@ public class Main {
             switch (choice) {
                 //학생 등록
                 case 1:
+                    validStatus = false;
+
                     System.out.print("📝 이름 : ");
                     String studentName = sc.nextLine();
 
@@ -174,6 +175,7 @@ public class Main {
                                 String changeStatus = sc.nextLine();
 
                                 if (changeStatus.equalsIgnoreCase("Y")) {
+                                    validStatus = false;
                                     while (!validStatus) {
                                         System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
                                         String newStatus = sc.nextLine();
@@ -200,56 +202,20 @@ public class Main {
                     }
                     break;
                 case 4:
-                    System.out.println("새로운 학생을 추가합니다. ");
-                    System.out.print("🎫 고유번호 : ");
-                    while (!sc.hasNextInt()) {
-                        System.out.println("잘못된 입력입니다. 숫자를 입력하세요.");
-                        System.out.print("🎫 고유번호 : ");
-                        sc.nextLine();
-                    }
-                    int newStudentId = sc.nextInt();
-                    sc.nextLine();
-
-                    System.out.print("📝 이름 : ");
-                    String newName = sc.nextLine();
-
-                    // 학생 추가할 때마다 validStatus 초기화
-                    validStatus = false;
-                    while (!validStatus) {
-                        System.out.print("🌠 상태 (Green, Red, Yellow) : ");
-                        String newStatus = sc.nextLine();
-                        if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
-                            validStatus = true;
-                            // 올바른 상태일 때만 추가
-                            System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
-                            List<String> newsubjectList = new ArrayList<>();
-                            while (true) {
-                                String subject = sc.nextLine();
-                                if (subject.equalsIgnoreCase("exit")) {
-                                    break;
-                                }
-                                newsubjectList.add(subject);
-                            }
-                            // 올바른 상태일 때만 추가
-                            Student new_student = new Student(newName, newStatus);
-                            // 과목 추가
-                            for (String subject : newsubjectList) {
-                                new_student.addSubject(subject);
-                            }
-//                            studentListManager.studentAdd(new_student);
-                        } else {
-                            System.out.println("잘못된 입력입니다. 다시 입력하세요.");
-                        }
-                    }
-
-                    break;
-                case 5:
                     // 학생 삭제
+                    Student s = null;
+                    System.out.println("===================== 등록된 학생 목록 =========================");
+                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                        s = studentDataStore.getDataStore().get(i);
+                        System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
+                    }
+                    System.out.println();
+
                     System.out.print("삭제할 학생의 이름을 입력하세요 : ");
                     String RemoveName = sc.nextLine();
                     studentDataStore.remove(RemoveName);
                     break;
-                case 6:
+                case 5:
                     System.out.println("프로그램을 종료합니다.");
                     System.exit(0);
                 default:
