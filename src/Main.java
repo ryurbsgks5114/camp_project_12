@@ -5,6 +5,7 @@ import student.Intro;
 import student.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -19,16 +20,18 @@ public class Main {
         StudentStore<Student> studentDataStore = new StudentStore<>();
         SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
 
-        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
-        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
+        String[] mandatoryList = {"Java", "객체지향", "Spring", "JPA", "MySQL"};
+        String[] choiceList = {"디자인 패턴", "Spring Security", "Redis", "MongoDB"};
 
         for (String el : mandatoryList) {
             subjectDataStore.addData(new Subject(el, SUBJECT_TYPE_MANDATORY));
+
         }
 
         for (String el : choiceList) {
             subjectDataStore.addData(new Subject(el, SUBJECT_TYPE_CHOICE));
         }
+
 
         System.out.println("‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗‗");
         System.out.println("‖ ███████ ████████ ██    ██ ██████  ███████ ███    ██ ████████  ‖");
@@ -86,23 +89,78 @@ public class Main {
                         }
                     }
 
-                    //과목 목록 입력 받음
-                    System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
                     List<String> subjectList = new ArrayList<>();
+
                     while (true) {
-                        String subject = sc.nextLine();
-                        if (subject.equalsIgnoreCase("exit")) {
-                            break;
+                        System.out.println("필수 과목을 선택하세요 (3개 이상, 공백으로 구분하여 입력)");
+                        subjectDataStore.inquiryDataByType(SUBJECT_TYPE_MANDATORY);
+                        System.out.print("입력 :  ");
+                        String mandatoryChoiceStr = sc.nextLine();
+                        String[] mandatoryChoicesStr = mandatoryChoiceStr.split(" ");
+
+                        if (mandatoryChoicesStr.length < 3) {
+                            System.out.println("최소 3개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            continue;
                         }
-                        subjectList.add(subject);
+
+                        boolean validInput = true;
+                        for (String choiceMandatory : mandatoryChoicesStr) {
+                            int index = Integer.parseInt(choiceMandatory) - 1; // 인덱스 변환
+                            if (index >= 0 && index < mandatoryList.length) {
+                                subjectList.add(mandatoryList[index]);
+                            } else {
+                                validInput = false;
+                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
+                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
+                            }
+                        }
+
+                        if (!validInput) {
+                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
+                            subjectList.clear(); // 이전에 선택된 항목들을 제거
+                            continue;
+                        }
+
+                        break; // 모든 선택이 유효하면 반복문 종료
+                    }
+
+                    // 선택 과목을 문자열로 받기
+                    while (true) {
+                        System.out.println("선택 과목을 선택하세요 (2개 이상, 공백으로 구분하여 입력)");
+                        subjectDataStore.inquiryDataByType(SUBJECT_TYPE_CHOICE);
+                        System.out.print("입력 :  ");
+                        String choiceChoiceStr = sc.nextLine();
+                        String[] choiceChoicesStr = choiceChoiceStr.split(" ");
+
+                        if (choiceChoicesStr.length < 2) {
+                            System.out.println("최소 2개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            continue;
+                        }
+
+                        boolean validInput = true;
+                        for (String choiceChoice : choiceChoicesStr) {
+                            int index = Integer.parseInt(choiceChoice) - 1; // 인덱스 변환
+                            if (index >= 0 && index < choiceList.length) {
+                                subjectList.add(choiceList[index]);
+                            } else {
+                                validInput = false;
+                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
+                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
+                            }
+                        }
+
+                        if (!validInput) {
+                            subjectList.clear();
+                            continue; // 잘못된 선택이 있으면 다시 입력 받음
+                        }
+
+                        break; // 모든 선택이 유효하면 반복문 종료
                     }
 
                     // 학생 객체 생성
                     Student student = new Student(studentName, status);
-                    // 과목 추가
-                    for (String subject : subjectList) {
-                        student.addSubject(subject);
-                    }
+                    student.setSubjectList(subjectList);
+
                     // 학생 추가
                     studentDataStore.addData(student);
 
@@ -223,25 +281,5 @@ public class Main {
             }
         }
 
-//        while (true) {
-//            System.out.println("1. 등록된 과목 조회");
-//            System.out.println("2. 종료");
-//            System.out.print("선택: ");
-//            String choice = sc.nextLine();
-//
-//            switch (choice) {
-//                case "1":
-//                    subjectDataStore.inquiryData();
-//                    break;
-//                case "2":
-//                    System.out.println("프로그램을 종료합니다.");
-//                    sc.close(); // Scanner 자원 해제
-//                    return; // 프로그램 종료
-//                default:
-//                    System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
-//            }
-//        }
-
     }
-
 }
