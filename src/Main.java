@@ -16,6 +16,7 @@ public class Main {
     private static final SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
     private static final ScoreStore<Score> scoreDataStore = new ScoreStore<>();
 
+
     private static final String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
     private static final String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
 
@@ -491,6 +492,7 @@ public class Main {
 
     }
 
+
     private static void setInitSubjectStore() {
 
         for (String el : mandatoryList) {
@@ -551,6 +553,7 @@ public class Main {
 
     }
 
+
     private static void displayStudent() {
 
         boolean checkDisplayStudent = true;
@@ -607,25 +610,12 @@ public class Main {
                             continue;
                         }
 
-                        boolean validInput = true;
-                        for (String choiceMandatory : mandatoryChoicesStr) {
-                            int index = Integer.parseInt(choiceMandatory) - 1; // 인덱스 변환
-                            if (index >= 0 && index < mandatoryList.length) {
-                                mandatorySelections.add(mandatoryList[index]);
-                            } else {
-                                validInput = false;
-                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
-                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
-                            }
+                        if (studentDataStore.validateSelections(mandatoryChoicesStr, mandatoryList, mandatorySelections)) {
+                            break;
+                        } else {
+                            mandatorySelections.clear();
                         }
 
-                        if (!validInput) {
-                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
-                            mandatorySelections.clear(); // 이전에 선택된 필수과목 항목들을 제거
-                            continue;
-                        }
-
-                        break; // 필수 과목 선택이 유효하면 반복문 종료
                     }
 
                     while (true) {
@@ -640,28 +630,14 @@ public class Main {
                             continue;
                         }
 
-                        boolean validInput = true;
-                        for (String choiceChoice : choiceChoicesStr) {
-                            int index = Integer.parseInt(choiceChoice) - 1; // 인덱스 변환
-                            if (index >= 0 && index < choiceList.length) {
-                                choiceSelections.add(choiceList[index]);
-                            } else {
-                                validInput = false;
-                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
-                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
-                            }
+                        if (studentDataStore.validateSelections(choiceChoicesStr, choiceList, choiceSelections)) {
+                            break;
+                        } else {
+                            choiceSelections.clear();
                         }
-
-                        if (!validInput) {
-                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
-                            choiceSelections.clear(); // 이전에 선택된 선택과목 항목들을 제거
-                            continue;
-                        }
-
-                        break; // 선택 과목 선택이 유효하면 반복문 종료
                     }
 
-//                    최종 선택 합치기
+                    // 최종 선택 합치기
                     subjectList.addAll(mandatorySelections);
                     subjectList.addAll(choiceSelections);
 
