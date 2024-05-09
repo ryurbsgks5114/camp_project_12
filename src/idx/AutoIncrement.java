@@ -5,7 +5,7 @@ public class AutoIncrement {
     private int idx;
 
     public AutoIncrement() {
-        this.idx = 0;
+        this.idx = 1;
     }
 
     public int getIdx() {

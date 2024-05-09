@@ -20,7 +20,7 @@ public class Student {
         System.out.println("학생 이름 : " + studentName);
         System.out.println("수강 과목 목록 :");
         for (String subject : subjectName) {
-            System.out.println(subject);
+            System.out.println("- " + subject);
         }
         System.out.println("학생 상태 : " + status);
     }
@@ -53,8 +53,14 @@ public class Student {
     public List<String> getSubjectList() { // List<String> 반환
         return subjectName;
     }
+
     public void addSubject(String subject) { // 과목 추가 메서드
         subjectName.add(subject);
+
     }
+    public void setSubjectList(List<String> subjects) {
+        this.subjectName = subjects;
+    }
+
 
 }
