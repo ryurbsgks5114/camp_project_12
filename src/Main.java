@@ -209,7 +209,23 @@ public class Main {
                     System.out.print("-------------------------------------------------------------");
                     break;
                 case 2:
-                    studentDataStore.inquiryData();
+                    System.out.println("1. 전체 학생 조회");
+                    System.out.println("2. 상태별 학생 조회");
+                    System.out.print("번호를 선택하세요: ");
+                    int choice = sc.nextInt();
+                    sc.nextLine();
+                    switch (choice) {
+                        case 1:
+                            studentDataStore.inquiryData();
+                            break;
+                        case 2:
+                            System.out.print("조회할 학생의 상태를 입력하세요 (Green, Red, Yellow): ");
+                            String status_inquiry = sc.nextLine();
+                            studentDataStore.displayStudentsByStatus(status_inquiry);
+                            break;
+                        default:
+                            System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
+                    }
                     break;
                 case 3:
                     //학생 수정

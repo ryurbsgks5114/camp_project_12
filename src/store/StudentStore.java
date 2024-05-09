@@ -83,5 +83,19 @@ public class StudentStore<T extends Student> extends DataStore<T> {
         }
         return true; // 모든 선택이 유효하면 true 반환
     }
+    // 학생 상태별로 출력하는 메서드 추가
+    public void displayStudentsByStatus(String status) {
+        boolean found = false;
+        System.out.println("\n============== " + status.toUpperCase() + " 상태의 학생 목록 ==============");
+        for (Student student : super.getDataStore()) {
+            if (student.getStatus().equalsIgnoreCase(status)) {
+                student.studentInquiry();
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("❗ " + status + " 상태의 학생이 없습니다.");
+        }
+    }
 
 }
