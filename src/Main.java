@@ -7,6 +7,7 @@ import student.Intro;
 import student.Student;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -75,22 +76,26 @@ public class Main {
             System.out.println("                      3. 프로그램 종료");
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
+            try{
+                int mainNum = sc.nextInt();
+                sc.nextLine();
 
-            int mainNum = sc.nextInt();
-            sc.nextLine();
-
-            switch (mainNum) {
-                case 1 -> displayStudent();
-                case 2 -> displayScore();
-                case 3 -> {
-                    System.out.println("프로그램을 종료합니다.");
-                    System.exit(0);
-                }
-                default -> System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
+                switch (mainNum) {
+                    case 1 -> displayStudent();
+                    case 2 -> displayScore();
+                    case 3 -> {
+                        System.out.println("프로그램을 종료합니다.");
+                        System.exit(0);
+                      }
+                    default ->  System.out.println("\n         ❗ 선택지 범위를 벗어났습니다 ··· 다시 선택해주세요.");
+                    }
+                    check = true;
+            } catch(InputMismatchException e){
+                System.out.println("\n         ❗ 잘못된 입력입니다 ··· 숫자를 입력해주세요.");
+                sc.nextLine();
+                check = true;
             }
-
         }
-
     }
 
 
@@ -102,20 +107,28 @@ public class Main {
 
         check = true;
 
+        int studentNum;
+
         while (checkDisplayStudent) {
 
             System.out.println("\n                      1. 학생 등록");
             System.out.println("                      2. 학생 조회");
             System.out.println("                      3. 학생 수정");
             System.out.println("                      4. 학생 삭제");
-            System.out.println("                      5. 이전으로");
+            System.out.println("                      5. 학생 · 점수 관리 Menu");
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
 
-            int studentNum = sc.nextInt();
-            sc.nextLine();
+            try {
+                studentNum = sc.nextInt();
+                sc.nextLine();
+                System.out.println();
+            } catch (InputMismatchException e) {
+                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                sc.nextLine();
+                continue; // 다시 반복문 처음으로 이동
+            }
             System.out.println();
-
             switch (studentNum) {
                 case 1:
                     validStatus = false;
@@ -130,7 +143,7 @@ public class Main {
                         if (status.equalsIgnoreCase("Green") || status.equalsIgnoreCase("Red") || status.equalsIgnoreCase("Yellow")) {
                             validStatus = true;
                         } else {
-                            System.out.println("선택지에 없는 입력입니다. 다시 입력하세요.");
+                            System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
                         }
                     }
 
@@ -139,14 +152,16 @@ public class Main {
                     List<String> choiceSelections = new ArrayList<>();
 
                     while (true) {
-                        System.out.println("필수 과목을 선택하세요 (3개 이상, 공백으로 구분하여 입력)");
+                        System.out.println("🤏🏻 필수 과목 선택 (3개 이상, 공백으로 구분하여 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_MANDATORY);
+                        System.out.println("            --------------------------------");
                         System.out.print("입력 :  ");
                         String mandatoryChoiceStr = sc.nextLine();
                         String[] mandatoryChoicesStr = mandatoryChoiceStr.split(" ");
 
                         if (mandatoryChoicesStr.length < 3) {
-                            System.out.println("최소 3개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            System.out.println("❗ 최소 3개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
                             continue;
                         }
 
@@ -159,14 +174,17 @@ public class Main {
                     }
 
                     while (true) {
-                        System.out.println("선택 과목을 선택하세요 (2개 이상, 공백으로 구분하여 입력)");
+                        System.out.println("🤏🏻 선택 과목 선택 (2개 이상, 공백으로 구분하여 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_CHOICE);
+                        System.out.println("            --------------------------------");
                         System.out.print("입력 :  ");
                         String choiceChoiceStr = sc.nextLine();
                         String[] choiceChoicesStr = choiceChoiceStr.split(" ");
 
                         if (choiceChoicesStr.length < 2) {
-                            System.out.println("최소 2개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            System.out.println("❗ 최소 2개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
+
                             continue;
                         }
 
@@ -191,11 +209,146 @@ public class Main {
                     System.out.print("-------------------------------------------------------------");
                     break;
                 case 2:
-                    studentDataStore.inquiryData();
+                    while (true) {
+                        System.out.println("1. 전체 학생 조회");
+                        System.out.println("2. 상태별 학생 조회");
+                        System.out.print("번호를 선택하세요: ");
+                        try {
+                            int choice = sc.nextInt();
+                            sc.nextLine();
+                            switch (choice) {
+                                case 1:
+                                    studentDataStore.inquiryData();
+                                    break;
+                                case 2:
+                                    while (true) {
+                                        System.out.print("조회할 학생의 상태를 입력하세요 (Green, Red, Yellow): ");
+                                        String status_inquiry = sc.nextLine();
+                                        if (status_inquiry.equalsIgnoreCase("Green") || status_inquiry.equalsIgnoreCase("Red") || status_inquiry.equalsIgnoreCase("Yellow")) {
+                                            studentDataStore.displayStudentsByStatus(status_inquiry);
+                                            break; // 유효한 입력이 들어온 경우 반복문 종료
+                                        } else {
+                                            System.out.println("❗ 유효하지 않은 입력입니다. 다시 입력하세요.");
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
+                                    continue; // 다시 반복문 처음으로 이동
+                            }
+                            break; // 유효한 선택이 입력된 경우 반복문 종료
+                        } catch (InputMismatchException e) {
+                            System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                            sc.nextLine(); // 버퍼 비우기
+                        }
+                    }
                     break;
                 case 3:
                     //학생 수정
-                    while (true) {
+                    if (studentDataStore.getDataStore().isEmpty()) {
+                        System.out.println("❗ 등록된 학생이 없습니다.");
+                    }
+                    else {
+                        while (true) {
+                            int studentIdToChange;
+                            Student s;
+                            System.out.println("===================== 등록된 학생 목록 =========================");
+                            for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                                s = studentDataStore.getDataStore().get(i);
+                                System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
+                            }
+                            System.out.println();
+
+                            try {
+                                System.out.print("변경할 학생의 고유번호를 입력하세요 (메인 메뉴 - 0 입력): ");
+                                studentIdToChange = sc.nextInt();
+                                sc.nextLine();
+                            } catch (InputMismatchException e) {
+                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                                sc.nextLine();
+                                continue; // 다시 반복문 처음으로 이동
+                            }
+                            if (studentIdToChange == 0) {
+                                break; // 메인 메뉴로 돌아가기
+                            }
+
+                            // 입력한 학생의 고유번호와 일치하는 학생 찾기
+                            Student selectedStudent = null;
+                            for (Student student2 : studentDataStore.getDataStore()) {
+                                if (student2.getStudentId() == studentIdToChange) {
+                                    selectedStudent = student2;
+                                    break;
+                                }
+                            }
+
+                            if (selectedStudent == null) {
+                                System.out.println("해당하는 고유번호의 학생을 찾을 수 없습니다.");
+                                continue; // 다시 입력 받기
+                            }
+
+                            // 선택된 학생의 정보 출력
+                            selectedStudent.studentInquiry();
+
+                            System.out.println("\n===================== 변경 사항 선택 =========================");
+                            System.out.println("                   1. 학생 이름 변경 ");
+                            System.out.println("                   2. 학생 상태 변경  (Green, Red, Yellow) ");
+                            System.out.println("                   3. 메인 메뉴 ");
+                            System.out.print("선택: ");
+                            int choice2 = sc.nextInt();
+                            sc.nextLine();
+
+                            switch (choice2) {
+
+                                case 1:
+                                    System.out.print("이름을 변경하시겠습니까? (Y/N): ");
+                                    String changeName = sc.nextLine();
+
+                                    if (changeName.equalsIgnoreCase("Y")) {
+                                        System.out.print("새로운 이름 입력: ");
+                                        String newName = sc.nextLine();
+                                        selectedStudent.setName(newName);
+                                        System.out.println("이름이 변경되었습니다.");
+                                    }
+                                    break;
+                                case 2:
+                                    System.out.print("상태를 변경하시겠습니까? (Y/N): ");
+                                    String changeStatus = sc.nextLine();
+
+                                    if (changeStatus.equalsIgnoreCase("Y")) {
+                                        validStatus = false;
+                                        while (!validStatus) {
+                                            System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
+                                            String newStatus = sc.nextLine();
+                                            if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
+                                                validStatus = true;
+                                            } else {
+                                                System.out.println("❗ 잘못된 입력입니다. 다시 입력하세요.");
+                                            }
+                                            selectedStudent.setStatus(newStatus);
+                                            System.out.println("상태가 변경되었습니다.");
+                                        }
+                                    }
+                                    break;
+                                case 3:
+                                    System.out.println("메인 메뉴로 돌아갑니다.");
+                                    break;
+                                default:
+                                    System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
+                            }
+                            // 메인 메뉴로 돌아가는 조건
+                            if (choice2 == 3) {
+                                break;
+                            }
+                        }
+                    }
+                    break;
+                case 4:
+                    if (studentDataStore.getDataStore().isEmpty()) {
+                        System.out.println("❗ 등록된 학생이 없습니다.");
+                    }
+                    else {
+                        // 학생 삭제
+                        int RemoveId;
                         Student s;
                         System.out.println("===================== 등록된 학생 목록 =========================");
                         for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
@@ -203,107 +356,40 @@ public class Main {
                             System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
                         }
                         System.out.println();
-
-                        System.out.print("변경할 학생의 고유번호를 입력하세요 (메인 메뉴로 돌아가려면 0 입력): ");
-                        int studentIdToChange = sc.nextInt();
-                        sc.nextLine();
-
-                        if (studentIdToChange == 0) {
-                            break; // 메인 메뉴로 돌아가기
-                        }
-
-                        // 입력한 학생의 고유번호와 일치하는 학생 찾기
-                        Student selectedStudent = null;
-                        for (Student student2 : studentDataStore.getDataStore()) {
-                            if (student2.getStudentId() == studentIdToChange) {
-                                selectedStudent = student2;
-                                break;
-                            }
-                        }
-
-                        if (selectedStudent == null) {
-                            System.out.println("해당하는 고유번호의 학생을 찾을 수 없습니다.");
-                            continue; // 다시 입력 받기
-                        }
-
-                        // 선택된 학생의 정보 출력
-                        System.out.println("<<선택한 학생 정보 ↓>> ");
-                        System.out.println();
-                        selectedStudent.studentInquiry();
-
-                        System.out.println("\n===================== 변경 사항 선택 =========================");
-                        System.out.println("1. 학생 이름 변경 ");
-                        System.out.println("2. 학생 상태 변경  (Green, Red, Yellow) ");
-                        System.out.println("3. 메인 메뉴 ");
-                        System.out.print("선택: ");
-                        int choice2 = sc.nextInt();
-                        sc.nextLine();
-
-                        switch (choice2) {
-
-                            case 1:
-                                System.out.print("이름을 변경하시겠습니까? (Y/N): ");
-                                String changeName = sc.nextLine();
-
-                                if (changeName.equalsIgnoreCase("Y")) {
-                                    System.out.print("새로운 이름 입력: ");
-                                    String newName = sc.nextLine();
-                                    selectedStudent.setName(newName);
-                                    System.out.println("이름이 변경되었습니다.");
-                                }
-                                break;
-                            case 2:
-                                System.out.print("상태를 변경하시겠습니까? (Y/N): ");
-                                String changeStatus = sc.nextLine();
-
-                                if (changeStatus.equalsIgnoreCase("Y")) {
-                                    validStatus = false;
-                                    while (!validStatus) {
-                                        System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
-                                        String newStatus = sc.nextLine();
-                                        if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
-                                            validStatus = true;
-                                        } else {
-                                            System.out.println("잘못된 입력입니다. 다시 입력하세요.");
-                                        }
-                                        selectedStudent.setStatus(newStatus);
-                                        System.out.println("상태가 변경되었습니다.");
+                        while (true) {
+                            try {
+                                System.out.print("삭제할 학생의 고유번호를 입력하세요 : ");
+                                RemoveId = sc.nextInt();
+                                sc.nextLine();
+                                boolean validId = false;
+                                for (Student student2 : studentDataStore.getDataStore()) {
+                                    if (student2.getStudentId() == RemoveId) {
+                                        validId = true;
+                                        break;
                                     }
                                 }
+                                if (!validId) {
+                                    System.out.println("\n❗ 유효하지 않은 학생 고유번호입니다. 다시 입력해주세요.");
+                                    continue; // 다시 반복문 처음으로 이동
+                                }
                                 break;
-                            case 3:
-                                System.out.println("메인 메뉴로 돌아갑니다.");
-                                break;
-                            default:
-                                System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
-                        }
-                        // 메인 메뉴로 돌아가는 조건
-                        if (choice2 == 3) {
-                            break;
-                        }
-                    }
-                    break;
-                case 4:
-                    // 학생 삭제
-                    Student s;
-                    System.out.println("===================== 등록된 학생 목록 =========================");
-                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
-                        s = studentDataStore.getDataStore().get(i);
-                        System.out.println("📌 [" + s.getStudentId() + "] " + s.getStudentName());
-                    }
-                    System.out.println();
 
-                    System.out.print("삭제할 학생의 이름을 입력하세요 : ");
-                    String RemoveName = sc.nextLine();
-                    studentDataStore.remove(RemoveName);
+                            } catch (InputMismatchException e) {
+                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                                sc.nextLine();
+
+                            }
+                        }
+                        studentDataStore.remove(RemoveId);
+                    }
                     break;
                 case 5:
-                    System.out.println("이전으로 돌아갑니다.");
+                    System.out.println("이전으로 돌아갑니다 ··· ");
                     checkDisplayStudent = false;
 
                     break;
                 default:
-                    System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
+                    System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
             }
 
         }
