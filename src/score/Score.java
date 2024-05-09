@@ -69,9 +69,27 @@ public class Score {
 
             scoreAndGrade.add(scoreAndGradePair);
 
-            System.out.println("점수 등록 완료");
+            animateScoreCompletion();
+            System.out.println("                    점수 등록 완료 👌🏻");
         } else {
-            System.out.println("점수는 0부터 100까지의 정수만 입력할 수 있습니다.");
+            System.out.println("❗ 점수는 0부터 100까지의 정수만 입력할 수 있습니다.");
+        }
+    }
+    public void animateScoreCompletion() {
+        String message = "                  ··· 점수 등록중 ···\n";
+
+        for (char c : message.toCharArray()) {
+            System.out.print(c);
+            sleep(50);
+        }
+    }
+
+    // sleep 메서드는 그대로 유지됩니다.
+    public void sleep(int milliseconds) {
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 
@@ -113,7 +131,7 @@ public class Score {
                     break;
 
                 default :
-                    System.out.println("과목 타입에 오류가 있습니다.");
+                    System.out.println("❗ 과목 타입에 오류가 있습니다.");
             }
 
             ArrayList<String> scoreAndGradePair = new ArrayList<>();
@@ -133,10 +151,10 @@ public class Score {
     public void getScore () {
         if (!scoreAndGrade.isEmpty()) {
             for (int i = 0; i < scoreAndGrade.size(); i++) {
-                System.out.println(i + 1 + "회차 : " + scoreAndGrade.get(i).get(0) + ", " + scoreAndGrade.get(i).get(1));
+                System.out.println("👉🏻"+i + 1 + "회차 : " + scoreAndGrade.get(i).get(0) + "점, 등급 : " + scoreAndGrade.get(i).get(1));
             }
         } else {
-            System.out.println("등록된 점수가 없습니다.");
+            System.out.println("❗ 등록된 점수가 없습니다.");
         }
     }
 
@@ -182,7 +200,7 @@ public class Score {
                 }
         }
 
-        System.out.println(scoreAndGrade.size() + "회차까지의 총점은 " + sum + " 점으로 " + "평균 " + avg + "점, " + avgGrade + "등급입니다.");
+        System.out.println(scoreAndGrade.size() + "회차 총점 " + sum + "점, " + "평균 " + avg + "점, " + avgGrade + "등급");
     }
 
     public int getStudentId() {

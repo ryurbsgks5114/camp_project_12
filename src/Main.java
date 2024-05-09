@@ -87,11 +87,11 @@ public class Main {
                         System.out.println("프로그램을 종료합니다.");
                         System.exit(0);
                       }
-                    default ->  System.out.println("\n         ❗ 선택지 범위를 벗어났습니다 ··· 다시 선택해주세요.");
+                    default ->  System.out.println("\n         ❗ 선택지 범위를 벗어났습니다 ··· 다시 선택해 주세요.");
                     }
                     check = true;
             } catch(InputMismatchException e){
-                System.out.println("\n         ❗ 잘못된 입력입니다 ··· 숫자를 입력해주세요.");
+                System.out.println("\n         ❗ 잘못된 입력입니다 ··· 숫자를 입력해 주세요.");
                 sc.nextLine();
                 check = true;
             }
@@ -117,14 +117,14 @@ public class Main {
             System.out.println("                      4. 학생 삭제");
             System.out.println("                      5. 학생 · 점수 관리 Menu");
             System.out.println("=============================================================");
-            System.out.print("                   번호를 선택하세요 : ");
+            System.out.print("                   번호 선택 : ");
 
             try {
                 studentNum = sc.nextInt();
                 sc.nextLine();
                 System.out.println();
             } catch (InputMismatchException e) {
-                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해 주세요.");
                 sc.nextLine();
                 continue; // 다시 반복문 처음으로 이동
             }
@@ -238,7 +238,7 @@ public class Main {
                             }
                             break; // 유효한 선택이 입력된 경우 반복문 종료
                         } catch (InputMismatchException e) {
-                            System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                            System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해 주세요.");
                             sc.nextLine(); // 버퍼 비우기
                         }
                     }
@@ -260,11 +260,11 @@ public class Main {
                             System.out.println();
 
                             try {
-                                System.out.print("변경할 학생의 고유번호를 입력하세요 (메인 메뉴 - 0 입력): ");
+                                System.out.print("변경할 학생의 고유번호 입력(메인 메뉴 - 0 입력) : ");
                                 studentIdToChange = sc.nextInt();
                                 sc.nextLine();
                             } catch (InputMismatchException e) {
-                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해 주세요.");
                                 sc.nextLine();
                                 continue; // 다시 반복문 처음으로 이동
                             }
@@ -282,7 +282,7 @@ public class Main {
                             }
 
                             if (selectedStudent == null) {
-                                System.out.println("해당하는 고유번호의 학생을 찾을 수 없습니다.");
+                                System.out.println("❗ 해당하는 고유번호의 학생을 찾을 수 없습니다.");
                                 continue; // 다시 입력 받기
                             }
 
@@ -369,13 +369,13 @@ public class Main {
                                     }
                                 }
                                 if (!validId) {
-                                    System.out.println("\n❗ 유효하지 않은 학생 고유번호입니다. 다시 입력해주세요.");
+                                    System.out.println("\n❗ 유효하지 않은 학생 고유번호입니다. 다시 입력해 주세요.");
                                     continue; // 다시 반복문 처음으로 이동
                                 }
                                 break;
 
                             } catch (InputMismatchException e) {
-                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                                System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해 주세요.");
                                 sc.nextLine();
 
                             }
@@ -408,9 +408,9 @@ public class Main {
             System.out.println("                      2. 점수 수정");
             System.out.println("                      3. 점수 조회");
             System.out.println("                      4. 평균 점수 조회");
-            System.out.println("                      5. 이전으로");
+            System.out.println("                      5. 학생 · 점수 관리 Menu");
             System.out.println("=============================================================");
-            System.out.print("                   번호를 선택하세요 : ");
+            System.out.print("                   번호 선택 : ");
 
             int scoreNum;
             try {
@@ -418,7 +418,7 @@ public class Main {
                 sc.nextLine();
                 System.out.println();
             } catch (InputMismatchException e) {
-                System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                 sc.nextLine();
                 continue;
             }
@@ -443,12 +443,12 @@ public class Main {
                     // 점수 등록할 student ID 입력
                     while (true) {
                         try {
-                            System.out.println("점수를 등록할 수강생의 고유번호를 입력해주세요.");
+                            System.out.print("점수를 등록할 학생의 고유번호를 입력 : ");
                             studentId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();
                         }
                     }
@@ -464,7 +464,7 @@ public class Main {
 
                     // ID가 유효하지 않을 경우 continue
                     if (!verifyId) {
-                        System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 등록되지 않은 ID 입니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -479,7 +479,8 @@ public class Main {
                     }
 
                     // 수강중인 과목 안내
-                    System.out.println(StudentName + " 수강생의 수강중인 과목");
+                    System.out.println("["+StudentName + "] 학생의 수강중인 과목");
+                    System.out.println("--------------------------------------------------------");
                     for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
                         Student student = studentDataStore.getDataStore().get(i);
                         if (student.getStudentId() == studentId) {
@@ -493,22 +494,22 @@ public class Main {
                                         } else if (subject.getSubjectType() == 2) {
                                             subjectType = "선택";
                                         }
-                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " / 과목명 : " + subject.getSubjectName() + " / 과목타입 : " + subjectType);
+                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " | 과목명 : " + subject.getSubjectName() + " | 과목타입 : " + subjectType);
                                     }
                                 }
                             }
                         }
                     }
-
+                    System.out.println("--------------------------------------------------------");
                     // 점수 등록할 subject ID 입력
                     while (true) {
-                        System.out.println("과목 코드를 입력해주세요.");
+                        System.out.print("과목 코드 입력 : ");
                         try {
                             subjectId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();
                         }
                     }
@@ -529,7 +530,7 @@ public class Main {
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 break
                     if (!isMatched) {
-                        System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 수강중인 과목이 아닙니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -558,13 +559,13 @@ public class Main {
 
                     // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
                     if (tempScore != null) {    // 기 입력 데이터가 있는 경우
-                        System.out.println("========== " + StudentName + " 수강생의 " + SubjectName + " 과목 점수 등록현황 ==========");
+                        System.out.println("========== " + StudentName + " 학생의 " + SubjectName + " 과목 점수 등록현황 ==========");
                         scoreDataStore.inquiryToScoreList(studentId, subjectId);
 
                         if (tempScore.getScoreArraySize() < 10) {
-                            System.out.println(tempScore.getScoreArraySize() + 1 + "회차 점수를 입력해주세요");
+                            System.out.print(tempScore.getScoreArraySize() + 1 + "회차 점수를 입력 : ");
                         } else {
-                            System.out.println("점수는 10회차까지만 등록할 수 있습니다.");
+                            System.out.println("❗ 점수는 10회차까지만 등록할 수 있습니다.");
                             break;
                         }
                         while (true) {
@@ -573,23 +574,23 @@ public class Main {
                                 sc.nextLine();
                                 break;
                             } catch (InputMismatchException e) {
-                                System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                                System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                                 sc.nextLine();
                             }
                         }
 
                         tempScore.scoreAdd(scoreValue);
                     } else {    // 기 입력 데이터가 없는 경우
-                        System.out.println(StudentName + " 수강생의 " + SubjectName + " 과목에 등록되어있는 점수가 없습니다.");
+                        System.out.println("["+StudentName + "] 학생의 [" + SubjectName + "] 과목에 등록되어있는 점수가 없습니다.");
 
                         while (true) {
                             try {
-                                System.out.println("1회차 점수를 입력해주세요");
+                                System.out.print("1회차 점수 입력 : ");
                                 scoreValue = sc.nextInt();
                                 sc.nextLine();
                                 break;
                             } catch (InputMismatchException e) {
-                                System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                                System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                                 sc.nextLine();
                             }
                         }
@@ -611,12 +612,12 @@ public class Main {
 
                     while (true) {
                         try {
-                            System.out.println("점수를 수정할 수강생의 고유번호를 입력해주세요.");
+                            System.out.println("점수를 수정할 학생의 고유번호를 입력해 주세요.");
                             studentId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();}
                     }
 
@@ -632,7 +633,7 @@ public class Main {
 
                     // ID가 유효하지 않을 경우 break
                     if(!modifyVerificationId) {
-                        System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 등록되지 않은 ID 입니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -646,7 +647,8 @@ public class Main {
                     }
 
                     // 수강중인 과목 안내
-                    System.out.println(StudentName + " 수강생의 수강중인 과목");
+                    System.out.println(StudentName + " 학생의 수강중인 과목");
+                    System.out.println("--------------------------------------------------------");
                     for (int i=0; i < studentDataStore.getDataStore().size(); i++){
                         Student student = studentDataStore.getDataStore().get(i);
                         if(student.getStudentId() == studentId) {
@@ -660,21 +662,22 @@ public class Main {
                                         } else if (subject.getSubjectType() == 2) {
                                             subjectType1 = "선택";
                                         }
-                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " / 과목명 : " + subject.getSubjectName() + " / 과목타입 : " + subjectType1);
+                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " | 과목명 : " + subject.getSubjectName() + " | 과목타입 : " + subjectType1);
                                     }
                                 }
                             }
                         }
                     }
+                    System.out.println("--------------------------------------------------------");
 
                     while (true) {
                         try {
-                            System.out.println("수정할 과목 코드를 입력해주세요.");
+                            System.out.println("수정할 과목 코드를 입력해 주세요.");
                             subjectId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();
                         }
                     }
@@ -695,7 +698,7 @@ public class Main {
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 break
                     if (!isMatched2) {
-                        System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 수강중인 과목이 아닙니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -713,41 +716,41 @@ public class Main {
 
                     // 기 입역 데이터 존재여부에 따라 기존 데이터에 추가 저장 또는 새로운 Score 객체 생성 후 저장
                     if (tempScore2 != null) {    // 기 입력 데이터가 있는 경우
-                        System.out.println("========== " + StudentName + " 수강생의 " + SubjectName + " 과목 점수 등록현황 ==========");
+                        System.out.println("========== " + StudentName + " 학생의 " + SubjectName + " 과목 점수 등록현황 ==========");
                         scoreDataStore.inquiryToScoreList(studentId,subjectId);
 
                         while (true) {
                             try {
-                                System.out.println("수정할 점수의 시험회차를 입력해주세요.");
+                                System.out.print("수정할 점수의 시험회차 입력 : ");
                                 round = sc.nextInt();
                                 sc.nextLine();
                                 break;
                             } catch (InputMismatchException e) {
-                                System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                                System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                                 sc.nextLine();
                             }
                         }
 
                         if (tempScore2.getScoreArraySize() < round) {
-                            System.out.println("등록되지 않은 회차입니다. 확인 후 입력해주세요.");
+                            System.out.println("❗ 등록되지 않은 회차입니다. 확인 후 입력해 주세요.");
                             break;
                         }
 
                         while (true) {
                             try {
-                                System.out.println("수정하여 입력될 점수를 입력해주세요 (점수범위 : 0 ~ 100)");
+                                System.out.print("수정하여 입력될 점수를 입력 (점수범위 : 0 ~ 100) : ");
                                 scoreValue = sc.nextInt();
                                 sc.nextLine();
                                 break;
                             } catch (InputMismatchException e) {
-                                System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                                System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                                 sc.nextLine();
                             }
                         }
 
                         tempScore2.setScore(studentId, subjectId, round, scoreValue);
                     } else {    // 기 입력 데이터가 없는 경우
-                        System.out.println(StudentName + " 수강생의 " + SubjectName + " 과목에 수정할 수 있는 데이터가 없습니다.");
+                        System.out.println("["+StudentName + "] 학생의 " + SubjectName + " 과목에 수정할 수 있는 데이터가 없습니다.");
                         break;
                     }
                     break;
@@ -764,12 +767,12 @@ public class Main {
                     // 학생 ID 입력
                     while (true) {
                         try {
-                            System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요.");
+                            System.out.print("점수를 조회할 학생의 고유번호 입력 : ");
                             studentId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해주세요.");
                             sc.nextLine();
                         }
                     }
@@ -785,7 +788,7 @@ public class Main {
 
                     // ID가 유효하지 않을 경우 break
                     if(!inquiryVerificationId) {
-                        System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         break;
                     }
 
@@ -799,7 +802,8 @@ public class Main {
                     }
 
                     // 수강중인 과목 안내
-                    System.out.println(StudentName + " 수강생의 수강중인 과목");
+                    System.out.println("["+StudentName + "] 학생의 수강중인 과목");
+                    System.out.println("--------------------------------------------------------");
                     for (int i=0; i < studentDataStore.getDataStore().size(); i++){
                         Student student = studentDataStore.getDataStore().get(i);
                         if(student.getStudentId() == studentId) {
@@ -813,22 +817,23 @@ public class Main {
                                         } else if (subject.getSubjectType() == 2) {
                                             subjectType1 = "선택";
                                         }
-                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " / 과목명 : " + subject.getSubjectName() + " / 과목타입 : " + subjectType1);
+                                        System.out.println("과목 코드 : " + subject.getSubjectId() + " | 과목명 : " + subject.getSubjectName() + " | 과목타입 : " + subjectType1);
                                     }
                                 }
                             }
                         }
                     }
+                    System.out.println("--------------------------------------------------------");
 
                     // 과목 코드 입력
                     while (true) {
                         try {
-                            System.out.println("조회할 과목 코드를 입력해주세요.");
+                            System.out.print("조회할 과목 코드 입력 : ");
                             subjectId = sc.nextInt();
                             sc.nextLine();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();
                         }
                     }
@@ -849,7 +854,7 @@ public class Main {
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 break
                     if (!isMatched3) {
-                        System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 수강중인 과목이 아닙니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -863,7 +868,7 @@ public class Main {
                     }
 
                     // 입력된 정보를 바탕으로 scoreList 에서 inquiry 메서드 호출
-                    System.out.println("========== " + StudentName + " 수강생의 " + SubjectName + " 과목 점수 조회 결과 ==========" );
+                    System.out.println("============= " + StudentName + " 학생의 " + SubjectName + " 과목 점수 조회 결과 =============" );
                     scoreDataStore.inquiryToScoreList(studentId,subjectId);
                     break;
                 case 4:    // 수강생의 수강중인 과목들의 평균 등급 조회
@@ -878,11 +883,11 @@ public class Main {
                     // 학생 ID 입력
                     while (true) {
                         try {
-                            System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요.");
+                            System.out.print("점수를 조회할 학생의 고유번호 입력 :");
                             studentId = sc.nextInt();
                             break;
                         } catch (InputMismatchException e) {
-                            System.out.println("잘못된 입력입니다. 숫자로 입력해주세요.");
+                            System.out.println("❗ 잘못된 입력입니다. 숫자로 입력해 주세요.");
                             sc.nextLine();
                         }
                     }
@@ -898,7 +903,7 @@ public class Main {
 
                     // ID가 유효하지 않을 경우 break
                     if(!avgInquiryVerificationId) {
-                        System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
+                        System.out.println("❗ 등록되지 않은 ID 입니다. 확인 후 입력해 주세요.");
                         break;
                     }
 
@@ -911,7 +916,7 @@ public class Main {
                         }
                     }
 
-                    System.out.println("========== " + StudentName + " 수강생의 수강중인 과목 평균 등급" + " ==========");
+                    System.out.println("============= " + StudentName + " 학생의 수강중인 과목 평균 등급" + " =============");
                     for(int i=0; i < scoreDataStore.getDataStore().size(); i++) {
                         Score score = scoreDataStore.getDataStore().get(i);
                         if (score.getStudentId() == studentId) {
@@ -927,12 +932,12 @@ public class Main {
 
                     break;
                 case 5:
-                    System.out.println("이전으로 돌아갑니다.");
+                    System.out.println("이전으로 돌아갑니다 ··· ");
                     checkDisplayScore = false;
 
                     break;
                 default:
-                    System.out.println("잘못된 선택입니다. 다시 선택해주세요.");
+                    System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
             }
 
         }

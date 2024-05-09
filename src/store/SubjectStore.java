@@ -18,7 +18,7 @@ public class SubjectStore<T extends Subject> extends DataStore<T> {
     @Override
     public void inquiryData() {
         if (super.getDataStore().isEmpty()) {
-            System.out.println("등록된 과목이 없습니다.");
+            System.out.println("❗ 등록된 과목이 없습니다.");
         } else {
             System.out.println("===== 등록된 과목 목록 =====");
 
