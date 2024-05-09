@@ -566,7 +566,7 @@ public class Main {
                         if(student.getStudentId() == studentId) {
                             for (int j=0; j < subjectDataStore.getDataStore().size(); j++) {
                                 Subject subject = subjectDataStore.getDataStore().get(j);
-                                for (int k=0; k < student.getSubjectList().size(); k++)
+                                for (int k = 0; k < student.getSubjectList().size(); k++){
                                     if (subject.getSubjectName().equals(student.getSubjectList().get(k))) {
                                         String subjectType1 = "";
                                         if (subject.getSubjectType() == 1) {
@@ -576,6 +576,7 @@ public class Main {
                                         }
                                         System.out.println("과목 코드 : " + subject.getSubjectId() + " / 과목명 : " + subject.getSubjectName() + " / 과목타입 : " + subjectType1);
                                     }
+                                }
                             }
                         }
                     }
@@ -717,7 +718,7 @@ public class Main {
                         if(student.getStudentId() == studentId) {
                             for (int j=0; j < subjectDataStore.getDataStore().size(); j++) {
                                 Subject subject = subjectDataStore.getDataStore().get(j);
-                                for (int k=0; k < student.getSubjectList().size(); k++)
+                                for (int k=0; k < student.getSubjectList().size(); k++) {
                                     if (subject.getSubjectName().equals(student.getSubjectList().get(k))) {
                                         String subjectType1 = "";
                                         if (subject.getSubjectType() == 1) {
@@ -727,6 +728,7 @@ public class Main {
                                         }
                                         System.out.println("과목 코드 : " + subject.getSubjectId() + " / 과목명 : " + subject.getSubjectName() + " / 과목타입 : " + subjectType1);
                                     }
+                                }
                             }
                         }
                     }
