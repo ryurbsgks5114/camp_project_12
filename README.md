@@ -195,7 +195,8 @@ https://github.com/LeeNaYoung240/student_management_project/assets/107848521/32a
 <summary>점수 관리 -  점수 조회, 평균 점수 조회</summary>
 <div markdown="1">
   
-https://github.com/LeeNaYoung240/student_management_project/assets/107848521/be40670a-0f25-4f08-8fb7-41cc50aa1b5c
+
+https://github.com/LeeNaYoung240/student_management_project/assets/107848521/6e76b01a-5488-4398-9e4c-d23cc189cf65
 
 
 </div>
