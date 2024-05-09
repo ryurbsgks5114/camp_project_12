@@ -3,6 +3,7 @@ package store;
 import student.Student;
 
 import java.util.Iterator;
+import java.util.List;
 
 public class StudentStore<T extends Student> extends DataStore<T> {
 
@@ -38,7 +39,7 @@ public class StudentStore<T extends Student> extends DataStore<T> {
         }
     }
 
-//    학생을 목록에서 삭제하는 메서드
+//학생을 목록에서 삭제하는 메서드
     public void remove(String name) {
         Iterator<Student> iterator = (Iterator<Student>) super.getDataStore().iterator();
         while (iterator.hasNext()) {
@@ -49,8 +50,19 @@ public class StudentStore<T extends Student> extends DataStore<T> {
                 return;
             }
         }
-//        반복이 끝나도 해당 이름을 가진 학생을 찾지 못한 경우
+    // 반복이 끝나도 해당 이름을 가진 학생을 찾지 못한 경우
         System.out.println("해당하는 이름의 학생을 찾을 수 없습니다.");
+    }
+    public boolean validateSelections(String[] choicesStr, String[] sourceList, List<String> selections) {
+        for (String choice : choicesStr) {
+            int index = Integer.parseInt(choice) - 1; // 인덱스 변환
+            if (index >= 0 && index < sourceList.length) {
+                selections.add(sourceList[index]);
+            } else {
+                return false; // 유효하지 않은 선택이 있으면 false 반환
+            }
+        }
+        return true; // 모든 선택이 유효하면 true 반환
     }
 
 }
