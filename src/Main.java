@@ -321,11 +321,11 @@ public class Main {
                                             String newStatus = sc.nextLine();
                                             if (newStatus.equalsIgnoreCase("Green") || newStatus.equalsIgnoreCase("Red") || newStatus.equalsIgnoreCase("Yellow")) {
                                                 validStatus = true;
+                                                selectedStudent.setStatus(newStatus); // 올바른 상태일 때만 변경
+                                                System.out.println("상태가 변경되었습니다."); // 여기서 메시지 출력
                                             } else {
                                                 System.out.println("❗ 잘못된 입력입니다. 다시 입력하세요.");
                                             }
-                                            selectedStudent.setStatus(newStatus);
-                                            System.out.println("상태가 변경되었습니다.");
                                         }
                                     }
                                     break;
@@ -612,7 +612,7 @@ public class Main {
 
                     while (true) {
                         try {
-                            System.out.println("점수를 수정할 학생의 고유번호를 입력해 주세요.");
+                            System.out.print("점수를 수정할 학생의 고유번호를 입력 : ");
                             studentId = sc.nextInt();
                             sc.nextLine();
                             break;
@@ -672,7 +672,7 @@ public class Main {
 
                     while (true) {
                         try {
-                            System.out.println("수정할 과목 코드를 입력해 주세요.");
+                            System.out.print("수정할 과목 코드 입력 :");
                             subjectId = sc.nextInt();
                             sc.nextLine();
                             break;

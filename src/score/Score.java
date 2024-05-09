@@ -151,7 +151,7 @@ public class Score {
     public void getScore () {
         if (!scoreAndGrade.isEmpty()) {
             for (int i = 0; i < scoreAndGrade.size(); i++) {
-                System.out.println("👉🏻"+i + 1 + "회차 : " + scoreAndGrade.get(i).get(0) + "점, 등급 : " + scoreAndGrade.get(i).get(1));
+                System.out.println("👉🏻"+(i + 1) + "회차 : " + scoreAndGrade.get(i).get(0) + "점, 등급 : " + scoreAndGrade.get(i).get(1));
             }
         } else {
             System.out.println("❗ 등록된 점수가 없습니다.");
