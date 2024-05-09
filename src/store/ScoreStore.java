@@ -27,6 +27,14 @@ public class ScoreStore<T extends Score> extends DataStore<T> {
         return null;
     }
 
+    public void removeScoreList(int studentId) {
+        for (int i=0; i < super.getDataStore().size(); i++) {
+            if (studentId == super.getDataStore().get(i).getStudentId()) {
+                super.getDataStore().remove(i);
+            }
+        }
+    }
+
     public void setScoreList (int studentId, int subjectId, int round, int scoreValue) {
         super.getDataStore().stream().filter(score -> score.getStudentId() == studentId && score.getSubjectid() == subjectId).forEach(score -> score.setScore(studentId,subjectId,round,scoreValue));
     }
