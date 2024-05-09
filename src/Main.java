@@ -7,7 +7,6 @@ import student.Intro;
 import student.Student;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -555,7 +554,7 @@ public class Main {
     private static void displayStudent() {
 
         boolean checkDisplayStudent = true;
-        boolean validStatus = false;
+        boolean validStatus;
         String status = "";
 
         check = true;
@@ -681,7 +680,7 @@ public class Main {
                 case 3:
                     //학생 수정
                     while (true) {
-                        Student s = null;
+                        Student s;
                         System.out.println("===================== 등록된 학생 목록 =========================");
                         for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
                             s = studentDataStore.getDataStore().get(i);
@@ -770,7 +769,7 @@ public class Main {
                     break;
                 case 4:
                     // 학생 삭제
-                    Student s = null;
+                    Student s;
                     System.out.println("===================== 등록된 학생 목록 =========================");
                     for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
                         s = studentDataStore.getDataStore().get(i);
@@ -833,7 +832,7 @@ public class Main {
                     }
 
                     // ID가 유효하지 않을 경우 continue
-                    if(addverifiationId == false) {
+                    if(!addverifiationId) {
                         continue;
                     }
 
@@ -846,8 +845,7 @@ public class Main {
                     sc.nextLine();
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
-                    boolean isMatched = false;
-                    isMatched= studentDataStore.getDataStore().stream()
+                    boolean isMatched = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == addStudentId)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
@@ -859,7 +857,7 @@ public class Main {
                             );
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
-                    if (isMatched == false) {
+                    if (!isMatched) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
                     }
@@ -939,7 +937,7 @@ public class Main {
                     }
 
                     // ID가 유효하지 않을 경우 continue
-                    if(modifyVerificationId == false) {
+                    if(!modifyVerificationId) {
                         continue;
                     }
 
@@ -951,8 +949,7 @@ public class Main {
                     sc.nextLine();
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
-                    boolean isMatched2 = false;
-                    isMatched2= studentDataStore.getDataStore().stream()
+                    boolean isMatched2 = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == modificationStudentId)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
@@ -964,7 +961,7 @@ public class Main {
                             );
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
-                    if (isMatched2 == false) {
+                    if (!isMatched2) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
                     }
@@ -1025,7 +1022,7 @@ public class Main {
                     }
 
                     // ID가 유효하지 않을 경우 continue
-                    if(inquiryVerificationId == false) {
+                    if(!inquiryVerificationId) {
                         continue;
                     }
 
@@ -1038,8 +1035,7 @@ public class Main {
                     sc.nextLine();
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
-                    boolean isMatched3 = false;
-                    isMatched3= studentDataStore.getDataStore().stream()
+                    boolean isMatched3 = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == inquiryStudentId)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
@@ -1051,7 +1047,7 @@ public class Main {
                             );
 
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
-                    if (isMatched3 == false) {
+                    if (!isMatched3) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
                         continue;
                     }
