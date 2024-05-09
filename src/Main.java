@@ -515,12 +515,13 @@ public class Main {
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
                     int tempStudentId = studentId;
+                    int tempSubjectId = subjectId;
                     boolean isMatched = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == tempStudentId)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
                                     subjectDataStore.getDataStore().stream()
-                                            .filter(el3 -> el3.getSubjectId() == tempStudentId)
+                                            .filter(el3 -> el3.getSubjectId() == tempSubjectId)
                                             .anyMatch(dataStoreSubject ->
                                                     studentSubject.equals(dataStoreSubject.getSubjectName())
                                             )
@@ -680,12 +681,13 @@ public class Main {
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
                     int tempStudentId2 = studentId;
+                    int tempSubjectId2 = subjectId;
                     boolean isMatched2 = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == tempStudentId2)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
                                     subjectDataStore.getDataStore().stream()
-                                            .filter(el3 -> el3.getSubjectId()==tempStudentId2)
+                                            .filter(el3 -> el3.getSubjectId() == tempSubjectId2)
                                             .anyMatch(dataStoreSubject ->
                                                     studentSubject.equals(dataStoreSubject.getSubjectName())
                                             )
@@ -833,12 +835,13 @@ public class Main {
 
                     // 입력된 학생 ID와 과목 ID를 기준으로 student 객체 필드에 입력된 과목 목록에 subject 이름이 있는지 검사
                     int tempStudentId3 = studentId;
+                    int tempSubjectId3 = subjectId;
                     boolean isMatched3 = studentDataStore.getDataStore().stream()
                             .filter(el1 -> el1.getStudentId() == tempStudentId3)
                             .flatMap(el2 -> el2.getSubjectList().stream())
                             .anyMatch(studentSubject ->
                                     subjectDataStore.getDataStore().stream()
-                                            .filter(el3 -> el3.getSubjectId() == tempStudentId3)
+                                            .filter(el3 -> el3.getSubjectId() == tempSubjectId3)
                                             .anyMatch(dataStoreSubject ->
                                                     studentSubject.equals(dataStoreSubject.getSubjectName())
                                             )
