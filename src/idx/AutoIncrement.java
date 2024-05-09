@@ -5,11 +5,15 @@ public class AutoIncrement {
     private int idx;
 
     public AutoIncrement() {
-        this.idx = 0;
+        this.idx = 1;
     }
 
-    public int increase() {
-        return this.idx++;
+    public int getIdx() {
+        return idx;
+    }
+
+    public void increase() {
+        this.idx++;
     }
 
 }

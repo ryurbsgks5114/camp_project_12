@@ -10,8 +10,7 @@ public class Student {
     private String status;
 
     /*생성자*/
-    public Student(int studentId, String studentName, String status) {
-        this.studentId = studentId;
+    public Student(String studentName, String status) {
         this.studentName = studentName;
         this.status = status;
         this.subjectName = new ArrayList<>(); //과목 초기화
@@ -21,7 +20,7 @@ public class Student {
         System.out.println("학생 이름 : " + studentName);
         System.out.println("수강 과목 목록 :");
         for (String subject : subjectName) {
-            System.out.println(subject);
+            System.out.println("- " + subject);
         }
         System.out.println("학생 상태 : " + status);
     }
@@ -30,6 +29,11 @@ public class Student {
     {
         return studentId;
     }
+
+    public void setStudentId(int studentId) {
+        this.studentId = studentId;
+    }
+
     //Setter 사용하여 status 값 수정
     public void setStatus(String status) {
         this.status = status;
@@ -49,8 +53,14 @@ public class Student {
     public List<String> getSubjectList() { // List<String> 반환
         return subjectName;
     }
+
     public void addSubject(String subject) { // 과목 추가 메서드
         subjectName.add(subject);
+
     }
+    public void setSubjectList(List<String> subjects) {
+        this.subjectName = subjects;
+    }
+
 
 }
