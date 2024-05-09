@@ -7,6 +7,7 @@ import student.Intro;
 import student.Student;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -15,6 +16,9 @@ public class Main {
     private static final StudentStore<Student> studentDataStore = new StudentStore<>();
     private static final SubjectStore<Subject> subjectDataStore = new SubjectStore<>();
     private static final ScoreStore<Score> scoreDataStore = new ScoreStore<>();
+
+    private static final String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
+    private static final String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
 
     private static final int SUBJECT_TYPE_MANDATORY = 1;
     private static final int SUBJECT_TYPE_CHOICE = 2;
@@ -490,9 +494,6 @@ public class Main {
 
     private static void setInitSubjectStore() {
 
-        String[] mandatoryList = { "Java", "객체지향", "Spring", "JPA", "MySQL" };
-        String[] choiceList = { "디자인 패턴", "Spring Security", "Redis", "MongoDB" };
-
         for (String el : mandatoryList) {
             subjectDataStore.addData(new Subject(el, SUBJECT_TYPE_MANDATORY));
         }
@@ -576,7 +577,7 @@ public class Main {
             switch (studentNum) {
                 case 1:
                     validStatus = false;
-                
+
                     System.out.print("📝 이름 : ");
                     String studentName = sc.nextLine();
 
@@ -591,23 +592,84 @@ public class Main {
                         }
                     }
 
-                    //과목 목록 입력 받음
-                    System.out.println("🧾 과목 목록 (종료하려면 'exit' 입력) : ");
                     List<String> subjectList = new ArrayList<>();
+                    List<String> mandatorySelections = new ArrayList<>();
+                    List<String> choiceSelections = new ArrayList<>();
+
                     while (true) {
-                        String subject = sc.nextLine();
-                        if (subject.equalsIgnoreCase("exit")) {
-                            break;
+                        System.out.println("필수 과목을 선택하세요 (3개 이상, 공백으로 구분하여 입력)");
+                        subjectDataStore.inquiryDataByType(SUBJECT_TYPE_MANDATORY);
+                        System.out.print("입력 :  ");
+                        String mandatoryChoiceStr = sc.nextLine();
+                        String[] mandatoryChoicesStr = mandatoryChoiceStr.split(" ");
+
+                        if (mandatoryChoicesStr.length < 3) {
+                            System.out.println("최소 3개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            continue;
                         }
-                        subjectList.add(subject);
+
+                        boolean validInput = true;
+                        for (String choiceMandatory : mandatoryChoicesStr) {
+                            int index = Integer.parseInt(choiceMandatory) - 1; // 인덱스 변환
+                            if (index >= 0 && index < mandatoryList.length) {
+                                mandatorySelections.add(mandatoryList[index]);
+                            } else {
+                                validInput = false;
+                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
+                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
+                            }
+                        }
+
+                        if (!validInput) {
+                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
+                            mandatorySelections.clear(); // 이전에 선택된 필수과목 항목들을 제거
+                            continue;
+                        }
+
+                        break; // 필수 과목 선택이 유효하면 반복문 종료
                     }
+
+                    while (true) {
+                        System.out.println("선택 과목을 선택하세요 (2개 이상, 공백으로 구분하여 입력)");
+                        subjectDataStore.inquiryDataByType(SUBJECT_TYPE_CHOICE);
+                        System.out.print("입력 :  ");
+                        String choiceChoiceStr = sc.nextLine();
+                        String[] choiceChoicesStr = choiceChoiceStr.split(" ");
+
+                        if (choiceChoicesStr.length < 2) {
+                            System.out.println("최소 2개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            continue;
+                        }
+
+                        boolean validInput = true;
+                        for (String choiceChoice : choiceChoicesStr) {
+                            int index = Integer.parseInt(choiceChoice) - 1; // 인덱스 변환
+                            if (index >= 0 && index < choiceList.length) {
+                                choiceSelections.add(choiceList[index]);
+                            } else {
+                                validInput = false;
+                                System.out.println("잘못된 선택입니다. 다시 선택하세요.");
+                                break; // 잘못된 선택이 하나라도 있으면 더 이상 검사하지 않고 반복문 종료
+                            }
+                        }
+
+                        if (!validInput) {
+                            // 잘못된 선택이 있으면 반복문의 처음으로 돌아가 다시 입력을 받음
+                            choiceSelections.clear(); // 이전에 선택된 선택과목 항목들을 제거
+                            continue;
+                        }
+
+                        break; // 선택 과목 선택이 유효하면 반복문 종료
+                    }
+
+//                    최종 선택 합치기
+                    subjectList.addAll(mandatorySelections);
+                    subjectList.addAll(choiceSelections);
 
                     // 학생 객체 생성
                     Student student = new Student(studentName, status);
-                    // 과목 추가
-                    for (String subject : subjectList) {
-                        student.addSubject(subject);
-                    }
+                    student.setSubjectList(subjectList);
+
                     // 학생 추가
                     studentDataStore.addData(student);
 
@@ -680,6 +742,7 @@ public class Main {
                                 String changeStatus = sc.nextLine();
 
                                 if (changeStatus.equalsIgnoreCase("Y")) {
+                                    validStatus = false;
                                     while (!validStatus) {
                                         System.out.print("새로운 상태 입력 (Green, Red, Yellow) : ");
                                         String newStatus = sc.nextLine();
