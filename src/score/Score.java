@@ -21,79 +21,57 @@ public class Score {
     }
 
     // 회차별 점수 등록
-    public void scoreAdd(int round, int score) {    // 입력할 회차에 점수가 기 등록되어있을 경우,이 메서드는 거부되어야함.
-        if (checkedMaxScoreRound(round)) {
-            if (checkAddedWhetherScoreRound(round)) {
-                if (score>= MIN_SCORE && score <= MAX_SCORE) {
-                    String scoreToString = Integer.toString(score);
-                    String scoreToGrade = "";
+    public void scoreAdd(int score) {    // 입력할 회차에 점수가 기 등록되어있을 경우,이 메서드는 거부되어야함.
+        if (score >= MIN_SCORE && score <= MAX_SCORE) {
+            String scoreToString = Integer.toString(score);
+            String scoreToGrade = "";
 
-                    switch (SUBJECT_TYPE) {
-                        case 1 : if (score >= 95) {
-                            scoreToGrade = "A";
-                        } else if (score >= 90) {
-                            scoreToGrade = "B";
-                        } else if (score >= 80) {
-                            scoreToGrade = "C";
-                        } else if (score >= 70) {
-                            scoreToGrade = "D";
-                        } else if (score >= 60) {
-                            scoreToGrade = "F";
-                        } else {
-                            scoreToGrade = "N";
-                        }
-                            break;
-
-                        case 2 : if (score >= 90) {
-                            scoreToGrade = "A";
-                        } else if (score >= 80) {
-                            scoreToGrade = "B";
-                        } else if (score >= 70) {
-                            scoreToGrade = "C";
-                        } else if (score >= 60) {
-                            scoreToGrade = "D";
-                        } else if (score >= 50) {
-                            scoreToGrade = "F";
-                        } else {
-                            scoreToGrade = "N";
-                        }
-                            break;
-
-                        default :
-                            System.out.println("10회차까지 점수를 입력했거나, ");
+            switch (SUBJECT_TYPE) {
+                case 1:
+                    if (score >= 95) {
+                        scoreToGrade = "A";
+                    } else if (score >= 90) {
+                        scoreToGrade = "B";
+                    } else if (score >= 80) {
+                        scoreToGrade = "C";
+                    } else if (score >= 70) {
+                        scoreToGrade = "D";
+                    } else if (score >= 60) {
+                        scoreToGrade = "F";
+                    } else {
+                        scoreToGrade = "N";
                     }
+                    break;
 
-                    ArrayList<String> scoreAndGradePair = new ArrayList<>();
-                    scoreAndGradePair.add(scoreToString);
-                    scoreAndGradePair.add(scoreToGrade);
+                case 2:
+                    if (score >= 90) {
+                        scoreToGrade = "A";
+                    } else if (score >= 80) {
+                        scoreToGrade = "B";
+                    } else if (score >= 70) {
+                        scoreToGrade = "C";
+                    } else if (score >= 60) {
+                        scoreToGrade = "D";
+                    } else if (score >= 50) {
+                        scoreToGrade = "F";
+                    } else {
+                        scoreToGrade = "N";
+                    }
+                    break;
 
-                    scoreAndGrade.add(scoreAndGradePair);
-
-                    System.out.println("점수 등록 완료");
-                } else {
-                    System.out.println("점수는 0부터 100까지의 정수만 입력할 수 있습니다.");
-                }
-            } else {
-                System.out.println("이미 점수가 등록된 회차입니다.");
+                default:
+                    System.out.println("10회차까지 점수를 입력했거나, ");
             }
-        } else {
-            System.out.println("점수 입력은 10회차까지만 가능합니다.");
-        }
-    }
 
-    public boolean checkedMaxScoreRound(int round) {
-        if (round > 0 && round <= SCORE_AND_GRADE_MAX_INDEX) {
-            return true;
-        } else {
-            return false;
-        }
-    }
+            ArrayList<String> scoreAndGradePair = new ArrayList<>();
+            scoreAndGradePair.add(scoreToString);
+            scoreAndGradePair.add(scoreToGrade);
 
-    public boolean checkAddedWhetherScoreRound(int round) {
-        if (round > scoreAndGrade.size()) {
-            return true;
+            scoreAndGrade.add(scoreAndGradePair);
+
+            System.out.println("점수 등록 완료");
         } else {
-            return false;
+            System.out.println("점수는 0부터 100까지의 정수만 입력할 수 있습니다.");
         }
     }
 
@@ -150,10 +128,15 @@ public class Score {
         }
     }
 
+
     // 과목별 점수 조회
     public void getScore () {
-        for (int i=0; i<scoreAndGrade.size(); i++) {
-                System.out.println(i+1 + "회차 : " + scoreAndGrade.get(i).get(0) + ", " + scoreAndGrade.get(i).get(1));
+        if (!scoreAndGrade.isEmpty()) {
+            for (int i = 0; i < scoreAndGrade.size(); i++) {
+                System.out.println(i + 1 + "회차 : " + scoreAndGrade.get(i).get(0) + ", " + scoreAndGrade.get(i).get(1));
+            }
+        } else {
+            System.out.println("등록된 점수가 없습니다.");
         }
     }
 
@@ -208,5 +191,9 @@ public class Score {
 
     public int getSubjectid() {
         return this.SUBJECT_ID;
+    }
+
+    public int getScoreArraySize() {
+        return this.scoreAndGrade.size();
     }
 }
