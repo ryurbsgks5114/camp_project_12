@@ -805,7 +805,8 @@ public class Main {
             System.out.println("\n                      1. 점수 등록");
             System.out.println("                      2. 점수 수정");
             System.out.println("                      3. 점수 조회");
-            System.out.println("                      4. 이전으로");
+            System.out.println("                      4. 평균 점수 조회");
+            System.out.println("                      5. 이전으로");
             System.out.println("=============================================================");
             System.out.print("                   번호를 선택하세요 : ");
 
@@ -815,25 +816,33 @@ public class Main {
 
             switch (scoreNum) {
                 case 1:  // 점수 등록
+                    Student s1 = null;
+                    System.out.println("===================== 등록된 학생 목록 =========================");
+                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                        s1 = studentDataStore.getDataStore().get(i);
+                        System.out.println("📌 [" + s1.getStudentId() + "] " + s1.getStudentName());
+                    }
+                    System.out.println();
+
                     // 점수 등록할 student ID 입력
                     System.out.println("점수를 등록할 수강생의 고유번호를 입력해주세요.");
                     int addStudentId = sc.nextInt();
-                    sc.nextLine();
 
                     // 입력된 student ID가 등록된 ID 인지 확인
-                    boolean addverifiationId = false;
+                    boolean addVerifiationId = false;
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == addStudentId) {
-                            addverifiationId = true;
+                            addVerifiationId = true;
+                            break;
                         } else {
-                            addverifiationId = false;
-                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
+                            addVerifiationId = false;
                         }
                     }
 
                     // ID가 유효하지 않을 경우 continue
-                    if(!addverifiationId) {
-                        continue;
+                    if(!addVerifiationId) {
+                        System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                        break;
                     }
 
                     // 점수 등록 가능한 과목 안내
@@ -859,7 +868,7 @@ public class Main {
                     // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
                     if (!isMatched) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
-                        continue;
+                        break;
                     }
 
                     // 입력된 과목코드의 필수과목 여부 판독
@@ -868,6 +877,7 @@ public class Main {
                         Subject subject = subjectDataStore.getDataStore().get(i);
                         if (subject.getSubjectId() == addSubjectId) {
                             subjectType = subject.getSubjectType();
+                            break;
                         }
                     }
 
@@ -880,6 +890,7 @@ public class Main {
                         Student student1 = studentDataStore.getDataStore().get(i);
                         if (student1.getStudentId() == addStudentId) {
                             addInformStudentName = student1.getStudentName();
+                            break;
                         }
                     }
 
@@ -888,6 +899,7 @@ public class Main {
                         Subject subject = subjectDataStore.getDataStore().get(i);
                         if (subject.getSubjectId() == addSubjectId) {
                             addInformSubjectName = subject.getSubjectName();
+                            break;
                         }
                     }
 
@@ -921,6 +933,14 @@ public class Main {
                     }
                     break;
                 case 2:    // 점수 수정
+                    Student s2 = null;
+                    System.out.println("===================== 등록된 학생 목록 =========================");
+                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                        s2 = studentDataStore.getDataStore().get(i);
+                        System.out.println("📌 [" + s2.getStudentId() + "] " + s2.getStudentName());
+                    }
+                    System.out.println();
+
                     System.out.println("점수를 수정할 수강생의 고유번호를 입력해주세요.");
                     int modificationStudentId = sc.nextInt();
                     sc.nextLine();
@@ -930,15 +950,16 @@ public class Main {
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == modificationStudentId) {
                             modifyVerificationId = true;
+                            break;
                         } else {
                             modifyVerificationId = false;
-                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         }
                     }
 
-                    // ID가 유효하지 않을 경우 continue
+                    // ID가 유효하지 않을 경우 break
                     if(!modifyVerificationId) {
-                        continue;
+                        System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                        break;
                     }
 
                     // 점수 수정할 과목 안내
@@ -960,10 +981,10 @@ public class Main {
                                             )
                             );
 
-                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
+                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 break
                     if (!isMatched2) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
-                        continue;
+                        break;
                     }
 
                     // 정보제공용 학생/과목 이름 변수 저장
@@ -974,6 +995,7 @@ public class Main {
                         Student student1 = studentDataStore.getDataStore().get(i);
                         if (student1.getStudentId() == modificationStudentId) {
                             modifyInformStudentName = student1.getStudentName();
+                            break;
                         }
                     }
 
@@ -981,6 +1003,7 @@ public class Main {
                         Subject subject = subjectDataStore.getDataStore().get(i);
                         if (subject.getSubjectId() == modificationSubjectId) {
                             modifyInformSubjectName = subject.getSubjectName();
+                            break;
                         }
                     }
 
@@ -1005,6 +1028,14 @@ public class Main {
                     break;
 
                 case 3:    // 점수 조회
+                    Student s3 = null;
+                    System.out.println("===================== 등록된 학생 목록 =========================");
+                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                        s3 = studentDataStore.getDataStore().get(i);
+                        System.out.println("📌 [" + s3.getStudentId() + "] " + s3.getStudentName());
+                    }
+                    System.out.println();
+
                     // 학생 ID 입력
                     System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요.");
                     int inquiryStudentId = sc.nextInt();
@@ -1015,15 +1046,16 @@ public class Main {
                     for (Student student2 : studentDataStore.getDataStore()) {
                         if (student2.getStudentId() == inquiryStudentId) {
                             inquiryVerificationId = true;
+                            break;
                         } else {
                             inquiryVerificationId = false;
-                            System.out.println("등록되지 않은 ID 입니다. 확인 후 입력해주세요.");
                         }
                     }
 
-                    // ID가 유효하지 않을 경우 continue
+                    // ID가 유효하지 않을 경우 break
                     if(!inquiryVerificationId) {
-                        continue;
+                        System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                        break;
                     }
 
                     // 점수 조회할 과목 안내
@@ -1046,10 +1078,10 @@ public class Main {
                                             )
                             );
 
-                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 continue
+                    // student 객체의 subjectList 에 등록되지 않은 과목일 경우 break
                     if (!isMatched3) {
                         System.out.println("수강중인 과목이 아닙니다. 확인 후 입력해주세요.");
-                        continue;
+                        break;
                     }
 
                     // 정보제공용 학생/과목 이름 변수 저장
@@ -1061,6 +1093,7 @@ public class Main {
                         Student student1 = studentDataStore.getDataStore().get(i);
                         if (student1.getStudentId() == inquiryStudentId) {
                             inquiryInformStudentName = student1.getStudentName();
+                            break;
                         }
                     }
 
@@ -1069,6 +1102,7 @@ public class Main {
                         Subject subject = subjectDataStore.getDataStore().get(i);
                         if (subject.getSubjectId() == inquirySubjectId) {
                             inquiryInformSubjectName = subject.getSubjectName();
+                            break;
                         }
                     }
 
@@ -1076,7 +1110,65 @@ public class Main {
                     System.out.println("========== " + inquiryInformStudentName + " 수강생의 " + inquiryInformSubjectName + " 과목 점수 조회 결과 ==========" );
                     scoreDataStore.inquiryToScoreList(inquiryStudentId,inquirySubjectId);
                     break;
-                case 4:
+                case 4:    // 수강생의 수강중인 과목들의 평균 등급 조회
+                    Student s4 = null;
+                    System.out.println("===================== 등록된 학생 목록 =========================");
+                    for (int i = 0; i < studentDataStore.getDataStore().size(); i++) {
+                        s4 = studentDataStore.getDataStore().get(i);
+                        System.out.println("📌 [" + s4.getStudentId() + "] " + s4.getStudentName());
+                    }
+                    System.out.println();
+
+                    // 학생 ID 입력
+                    System.out.println("점수를 조회할 수강생의 고유번호를 입력해주세요.");
+                    int avgInquiryStudentId = sc.nextInt();
+                    sc.nextLine();
+
+                    // 입력된 student ID의 studentList 등록 여부를 boolean 타입 변수에 결과 저장
+                    boolean avgInquiryVerificationId = false;
+                    for (Student tempStudent : studentDataStore.getDataStore()) {
+                        if (tempStudent.getStudentId() == avgInquiryStudentId) {
+                            avgInquiryVerificationId = true;
+                            break;
+                        } else {
+                            avgInquiryVerificationId = false;
+                        }
+                    }
+
+                    // ID가 유효하지 않을 경우 break
+                    if(avgInquiryVerificationId == false) {
+                        System.out.println("등록되지 않은 ID입니다. 확인 후 입력해주세요.");
+                        break;
+                    }
+
+                    // 정보제공용 학생/과목 이름 변수 저장
+                    String avgInquiryInformStudentName = "";
+
+                    // 학생 이름 저장
+                    for(int i=0; i < studentDataStore.getDataStore().size(); i++){
+                        Student student1 = studentDataStore.getDataStore().get(i);
+                        if (student1.getStudentId() == avgInquiryStudentId) {
+                            avgInquiryInformStudentName = student1.getStudentName();
+                            break;
+                        }
+                    }
+
+                    System.out.println("========== " + avgInquiryInformStudentName + " 수강생의 수강중인 과목 평균 등급" + " ==========");
+                    for(int i=0; i < scoreDataStore.getDataStore().size(); i++) {
+                        Score score = scoreDataStore.getDataStore().get(i);
+                        if (score.getStudentId() == avgInquiryStudentId) {
+                            for (int j=0; j < subjectDataStore.getDataStore().size(); j++) {
+                                Subject subject = subjectDataStore.getDataStore().get(j);
+                                if (score.getSubjectid() == subject.getSubjectId()) {
+                                    System.out.print(subject.getSubjectName() + " : ");
+                                    score.getAvgScore();
+                                }
+                            }
+                        }
+                    }
+
+                    break;
+                case 5:
                     System.out.println("이전으로 돌아갑니다.");
                     checkDisplayScore = false;
 
