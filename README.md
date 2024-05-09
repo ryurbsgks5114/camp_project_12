@@ -101,6 +101,19 @@
 
 <br>
 
+## ✍🏻 클래스 설계도 
+
+![image](https://github.com/LeeNaYoung240/student_management_project/assets/107848521/06880cc2-29be-452a-86dc-9a98cf9ae6e9)
+
+## ERD DIAGRAM
+
+![image](https://github.com/LeeNaYoung240/student_management_project/assets/107848521/ee4f75f0-4a94-499c-9ac3-f1e36497194c)
+
+## API 명세서
+
+![image](https://github.com/LeeNaYoung240/student_management_project/assets/107848521/07997304-d179-4f18-aa3a-3cbfbf571b54)
+
+
 ## 📸 video
 <details>
 <summary>Intro</summary>
