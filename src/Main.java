@@ -107,7 +107,7 @@ public class Main {
 
         check = true;
 
-        int studentNum = 0;
+        int studentNum;
 
         while (checkDisplayStudent) {
 
@@ -209,22 +209,38 @@ public class Main {
                     System.out.print("-------------------------------------------------------------");
                     break;
                 case 2:
-                    System.out.println("1. 전체 학생 조회");
-                    System.out.println("2. 상태별 학생 조회");
-                    System.out.print("번호를 선택하세요: ");
-                    int choice = sc.nextInt();
-                    sc.nextLine();
-                    switch (choice) {
-                        case 1:
-                            studentDataStore.inquiryData();
-                            break;
-                        case 2:
-                            System.out.print("조회할 학생의 상태를 입력하세요 (Green, Red, Yellow): ");
-                            String status_inquiry = sc.nextLine();
-                            studentDataStore.displayStudentsByStatus(status_inquiry);
-                            break;
-                        default:
-                            System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
+                    while (true) {
+                        System.out.println("1. 전체 학생 조회");
+                        System.out.println("2. 상태별 학생 조회");
+                        System.out.print("번호를 선택하세요: ");
+                        try {
+                            int choice = sc.nextInt();
+                            sc.nextLine();
+                            switch (choice) {
+                                case 1:
+                                    studentDataStore.inquiryData();
+                                    break;
+                                case 2:
+                                    while (true) {
+                                        System.out.print("조회할 학생의 상태를 입력하세요 (Green, Red, Yellow): ");
+                                        String status_inquiry = sc.nextLine();
+                                        if (status_inquiry.equalsIgnoreCase("Green") || status_inquiry.equalsIgnoreCase("Red") || status_inquiry.equalsIgnoreCase("Yellow")) {
+                                            studentDataStore.displayStudentsByStatus(status_inquiry);
+                                            break; // 유효한 입력이 들어온 경우 반복문 종료
+                                        } else {
+                                            System.out.println("❗ 유효하지 않은 입력입니다. 다시 입력하세요.");
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
+                                    continue; // 다시 반복문 처음으로 이동
+                            }
+                            break; // 유효한 선택이 입력된 경우 반복문 종료
+                        } catch (InputMismatchException e) {
+                            System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
+                            sc.nextLine(); // 버퍼 비우기
+                        }
                     }
                     break;
                 case 3:
@@ -361,7 +377,7 @@ public class Main {
                             } catch (InputMismatchException e) {
                                 System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해주세요.");
                                 sc.nextLine();
-                                continue; // 다시 반복문 처음으로 이동
+
                             }
                         }
                         studentDataStore.remove(RemoveId);
