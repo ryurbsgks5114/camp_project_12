@@ -17,12 +17,13 @@ public class Student {
     }
     /*수강생 등록정보 조회*/
     public void studentInquiry() {
-        System.out.println("학생 이름 : " + studentName);
-        System.out.println("수강 과목 목록 :");
+        System.out.println("\n💁🏻‍♀️️ ["+studentName+"] 학생의 정보입니다.");
+        System.out.println("📝 학생 이름 : " + studentName);
+        System.out.println("🌠 학생 상태 : " + status);
+        System.out.println("📜 수강 과목 목록 :");
         for (String subject : subjectName) {
-            System.out.println(subject);
+            System.out.println("    📌 " + subject);
         }
-        System.out.println("학생 상태 : " + status);
     }
     //Getter 객체 고유번호 반환
     public int getStudentId()
@@ -53,8 +54,14 @@ public class Student {
     public List<String> getSubjectList() { // List<String> 반환
         return subjectName;
     }
+
     public void addSubject(String subject) { // 과목 추가 메서드
         subjectName.add(subject);
+
     }
+    public void setSubjectList(List<String> subjects) {
+        this.subjectName = subjects;
+    }
+
 
 }
