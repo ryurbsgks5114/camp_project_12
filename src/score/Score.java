@@ -157,6 +157,51 @@ public class Score {
         }
     }
 
+    // 과목 평균 등급 조회
+    public void getAvgScore () {
+        int sum = 0;
+        for (int i=0; i < scoreAndGrade.size(); i++) {
+            sum += Integer.parseInt(scoreAndGrade.get(i).get(0));
+        }
+        int avg = sum / scoreAndGrade.size();
+
+        String avgGrade = "";
+        switch (SUBJECT_TYPE) {
+            case 1:
+                if (avg >= 95) {
+                    avgGrade = "A";
+                } else if (avg >= 90) {
+                    avgGrade = "B";
+                } else if (avg >= 80) {
+                    avgGrade = "C";
+                } else if (avg >= 70) {
+                    avgGrade = "D";
+                } else if (avg >= 60) {
+                    avgGrade = "F";
+                } else {
+                    avgGrade = "N";
+                }
+                break;
+
+            case 2:
+                if (avg >= 90) {
+                    avgGrade = "A";
+                } else if (avg >= 80) {
+                    avgGrade = "B";
+                } else if (avg >= 70) {
+                    avgGrade = "C";
+                } else if (avg >= 60) {
+                    avgGrade = "D";
+                } else if (avg >= 50) {
+                    avgGrade = "F";
+                } else {
+                    avgGrade = "N";
+                }
+        }
+
+        System.out.println(scoreAndGrade.size() + "회차까지의 총점은 " + sum + " 점으로 " + "평균 " + avg + "점, " + avgGrade + "등급입니다.");
+    }
+
     public int getStudentId() {
         return this.STUDENT_ID;
     }
