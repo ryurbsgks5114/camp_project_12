@@ -56,6 +56,7 @@ public class StudentStore<T extends Student> extends DataStore<T> {
         }
     }
 
+
 //학생을 목록에서 삭제하는 메서드
     public void remove(int Id) {
         Iterator<Student> iterator = (Iterator<Student>) super.getDataStore().iterator();
