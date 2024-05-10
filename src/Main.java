@@ -130,18 +130,31 @@ public class Main {
                 case 1:
                     validStatus = false;
                     String studentName;
-                    System.out.print("📝 이름 : ");
                     while (true) {
+                        System.out.print("📝 이름 : ");
                         studentName = sc.nextLine();
-                        // 입력된 문자열이 숫자인지 확인, 정규표현식 사용
-                        if (studentName.matches(".*\\d.*")) {
-                            System.out.println("❗ 이름에는 숫자를 입력할 수 없습니다. 다시 입력하세요.");
-                            System.out.print("📝 이름 : ");
-                        } else {
-                            break; // 숫자가 아닌 문자열이 입력되면 반복문 종료
-                        }
-                    }
 
+                        // 이름이 공백인지 확인
+                        if (studentName.trim().isEmpty()) {
+                            System.out.println("❗ 이름을 공백으로 입력할 수 없습니다. 다시 입력하세요.");
+                            continue;
+                        }
+
+                        // 입력된 문자열이 각 글자별로 분리되는지 확인
+                        String[] nameArray = studentName.split(" ");
+                        if (nameArray.length > 1) {
+                            System.out.println("❗ 이름은 한 단어로만 입력해야 합니다. 다시 입력하세요.");
+                            continue;
+                        }
+
+                        // 입력된 문자열에 특수 기호나 숫자가 포함되어 있는지 확인
+                        if (!studentName.matches("[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣]+")) {
+                            System.out.println("❗ 이름에는 특수 기호나 숫자를 입력할 수 없습니다. 다시 입력하세요.");
+                            continue;
+                        }
+
+                        break; // 유효한 이름이 입력되면 반복문 종료
+                    }
                     while (!validStatus) {
                         System.out.print("🌠 상태 (Green, Red, Yellow) : ");
                         status = sc.nextLine();
@@ -430,6 +443,8 @@ public class Main {
                             }
                         }
                         studentDataStore.remove(RemoveId);
+                        scoreDataStore.removeScoreList(RemoveId);
+
                     }
                     break;
                 case 5:
