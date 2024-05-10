@@ -18,7 +18,7 @@ public class SubjectStore<T extends Subject> extends DataStore<T> {
     @Override
     public void inquiryData() {
         if (super.getDataStore().isEmpty()) {
-            System.out.println("등록된 과목이 없습니다.");
+            System.out.println("❗ 등록된 과목이 없습니다.");
         } else {
             System.out.println("===== 등록된 과목 목록 =====");
 
@@ -30,5 +30,16 @@ public class SubjectStore<T extends Subject> extends DataStore<T> {
             System.out.println("=============================");
         }
     }
-
+    public void inquiryDataByType(int type) {
+        System.out.println("과목 목록:");
+        System.out.println("            --------------------------------");
+        int index = 1;
+        for (int i = 0; i < getDataStore().size(); i++) {
+            Subject subject = getDataStore().get(i);
+            if (subject.getSubjectType() == type) {
+                System.out.println("                   📌 [" + index + "] " + subject.getSubjectName()+"        ");
+                index++;
+            }
+        }
+    }
 }

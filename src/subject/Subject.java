@@ -5,6 +5,8 @@ public class Subject {
     private final String subjectName;
     private final int subjectType;
 
+
+
     // 과목 ID, 이름 및 유형을 매개변수로 받아서 해당 필드에 할당
     public Subject(String subjectName, int subjectType) {
         this.subjectName = subjectName;
@@ -26,4 +28,5 @@ public class Subject {
     public int getSubjectType() {
         return subjectType;
     }
+
 }
