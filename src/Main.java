@@ -6,10 +6,7 @@ import subject.Subject;
 import student.Intro;
 import student.Student;
 
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
@@ -99,12 +96,12 @@ public class Main {
     }
 
 
+
     private static void displayStudent() {
 
         boolean checkDisplayStudent = true;
         boolean validStatus;
         String status = "";
-
         check = true;
 
         int studentNum;
@@ -132,9 +129,18 @@ public class Main {
             switch (studentNum) {
                 case 1:
                     validStatus = false;
-
+                    String studentName;
                     System.out.print("📝 이름 : ");
-                    String studentName = sc.nextLine();
+                    while (true) {
+                        studentName = sc.nextLine();
+                        // 입력된 문자열이 숫자인지 확인, 정규표현식 사용
+                        if (studentName.matches(".*\\d.*")) {
+                            System.out.println("❗ 이름에는 숫자를 입력할 수 없습니다. 다시 입력하세요.");
+                            System.out.print("📝 이름 : ");
+                        } else {
+                            break; // 숫자가 아닌 문자열이 입력되면 반복문 종료
+                        }
+                    }
 
                     while (!validStatus) {
                         System.out.print("🌠 상태 (Green, Red, Yellow) : ");
@@ -152,15 +158,40 @@ public class Main {
                     List<String> choiceSelections = new ArrayList<>();
 
                     while (true) {
-                        System.out.println("🤏🏻 필수 과목 선택 (3개 이상, 공백으로 구분하여 입력)");
+                        System.out.println("🤏🏻 필수 과목 선택 (3개 이상, 공백으로 구분하여 숫자를 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_MANDATORY);
                         System.out.println("            --------------------------------");
                         System.out.print("입력 :  ");
                         String mandatoryChoiceStr = sc.nextLine();
                         String[] mandatoryChoicesStr = mandatoryChoiceStr.split(" ");
 
+                        // 숫자가 아닌 문자열이 포함되어 있는지 확인
+                        boolean containsNonDigit = false;
+                        for (String choice : mandatoryChoicesStr) {
+                            if (!choice.matches("\\d+")) {
+                                containsNonDigit = true;
+                                break;
+                            }
+                        }
+
+                        if (containsNonDigit) {
+                            System.out.println("❗ 과목 번호는 숫자로만 입력해야 합니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
+                            continue;
+                        }
+
                         if (mandatoryChoicesStr.length < 3) {
                             System.out.println("❗ 최소 3개의 과목을 선택해야 합니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
+                            continue;
+                        }
+
+                        // 중복된 과목이 있는지 확인하는 로직 추가
+                        boolean hasDuplicateMandatory = Arrays.stream(mandatoryChoicesStr)
+                                .distinct()
+                                .count() != mandatoryChoicesStr.length;
+                        if (hasDuplicateMandatory) {
+                            System.out.println("❗ 중복된 과목을 선택하셨습니다. 다시 선택하세요.");
                             System.out.println("-------------------------------------------------------------");
                             continue;
                         }
@@ -170,21 +201,41 @@ public class Main {
                         } else {
                             mandatorySelections.clear();
                         }
-
                     }
 
                     while (true) {
-                        System.out.println("🤏🏻 선택 과목 선택 (2개 이상, 공백으로 구분하여 입력)");
+                        System.out.println("🤏🏻 선택 과목 선택 (2개 이상, 공백으로 구분하여 숫자를 입력)");
                         subjectDataStore.inquiryDataByType(SUBJECT_TYPE_CHOICE);
                         System.out.println("            --------------------------------");
                         System.out.print("입력 :  ");
                         String choiceChoiceStr = sc.nextLine();
                         String[] choiceChoicesStr = choiceChoiceStr.split(" ");
 
+                        // 숫자가 아닌 문자열이 포함되어 있는지 확인
+                        boolean containsNonDigit = false;
+                        for (String choice : choiceChoicesStr) {
+                            if (!choice.matches("\\d+")) {
+                                containsNonDigit = true;
+                                break;
+                            }
+                        }
+                        if (containsNonDigit) {
+                            System.out.println("❗ 과목 번호는 숫자로만 입력해야 합니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
+                            continue;
+                        }
                         if (choiceChoicesStr.length < 2) {
                             System.out.println("❗ 최소 2개의 과목을 선택해야 합니다. 다시 선택하세요.");
                             System.out.println("-------------------------------------------------------------");
-
+                            continue;
+                        }
+                        // 중복된 과목이 있는지 확인하는 로직 추가
+                        boolean hasDuplicateChoice = Arrays.stream(choiceChoicesStr)
+                                .distinct()
+                                .count() != choiceChoicesStr.length;
+                        if (hasDuplicateChoice) {
+                            System.out.println("❗ 중복된 과목을 선택하셨습니다. 다시 선택하세요.");
+                            System.out.println("-------------------------------------------------------------");
                             continue;
                         }
 
@@ -373,11 +424,9 @@ public class Main {
                                     continue; // 다시 반복문 처음으로 이동
                                 }
                                 break;
-
                             } catch (InputMismatchException e) {
                                 System.out.println("\n❗ 잘못된 입력입니다. 숫자를 입력해 주세요.");
                                 sc.nextLine();
-
                             }
                         }
                         studentDataStore.remove(RemoveId);
@@ -391,9 +440,7 @@ public class Main {
                 default:
                     System.out.println("❗ 선택지에 없는 입력입니다. 다시 입력하세요.");
             }
-
         }
-
     }
 
     private static void displayScore() {
