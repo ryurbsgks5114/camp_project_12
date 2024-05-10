@@ -430,6 +430,8 @@ public class Main {
                             }
                         }
                         studentDataStore.remove(RemoveId);
+                        scoreDataStore.removeScoreList(RemoveId);
+
                     }
                     break;
                 case 5:
